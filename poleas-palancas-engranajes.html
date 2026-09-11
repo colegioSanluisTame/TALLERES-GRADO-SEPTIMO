@@ -604,43 +604,68 @@ function abrirTab(n){document.querySelectorAll('.tab-content').forEach(t=>t.clas
 document.addEventListener('DOMContentLoaded',function(){const ni=document.getElementById('nombreEst'),ci=document.getElementById('cursoEst');if(ni)ni.addEventListener('input',function(){document.getElementById('tallerNombre').textContent=this.value||'______________';});if(ci)ci.addEventListener('input',function(){document.getElementById('tallerCurso').textContent=this.value||'______________';});initEval();});
 
 const banco=[
-{q:"Que tipo de polea ves en la imagen?",img:'<svg viewBox="0 0 80 90" width="70" height="80"><circle cx="40" cy="30" r="18" fill="none" stroke="#0f3460" stroke-width="3"/><circle cx="40" cy="30" r="3" fill="#e94560"/><line x1="40" y1="12" x2="40" y2="3" stroke="#333" stroke-width="2"/><polygon points="35,3 45,3 40,0" fill="#333"/><line x1="24" y1="44" x2="15" y2="80" stroke="#888" stroke-width="2"/><line x1="56" y1="44" x2="65" y2="80" stroke="#888" stroke-width="2"/><rect x="12" y="78" width="6" height="5" rx="1" fill="#555"/><rect x="63" y="78" width="6" height="5" rx="1" fill="#555"/></svg>',opts:["Polea movil","Polea fija","Polipasto","Polea con correa"],ans:1},
-{q:"Observa la imagen. De que grado es esta palanca?",img:'<svg viewBox="0 0 130 60" width="120" height="55"><line x1="10" y1="45" x2="65" y2="10" stroke="#8B4513" stroke-width="5"/><line x1="65" y1="10" x2="120" y2="45" stroke="#8B4513" stroke-width="5"/><circle cx="65" cy="10" r="4" fill="#0f3460"/><text x="65" y="22" text-anchor="middle" font-size="7">F</text><text x="30" y="38" font-size="9" fill="#e94560">P</text><text x="100" y="38" font-size="9" fill="#d4a017">R</text></svg>',opts:["Primer grado","Segundo grado","Tercer grado","No es palanca"],ans:0},
-{q:"Un engranaje de 20 dientes a 600 rpm acoplado a uno de 40 dientes. Velocidad del segundo?",opts:["1200 rpm","600 rpm","300 rpm","150 rpm"],ans:2},
-{q:"Que ventaja tiene usar una polea fija?",img:'<svg viewBox="0 0 80 80" width="65" height="70"><circle cx="40" cy="25" r="15" fill="none" stroke="#0f3460" stroke-width="2.5"/><circle cx="40" cy="25" r="3" fill="#e94560"/><line x1="40" y1="10" x2="40" y2="2" stroke="#333" stroke-width="2"/><polygon points="36,2 44,2 40,-1" fill="#333"/><line x1="27" y1="36" x2="15" y2="72" stroke="#888" stroke-width="2"/><line x1="53" y1="36" x2="65" y2="72" stroke="#888" stroke-width="2"/></svg>',opts:["Reduce la fuerza a la mitad","Cambia la direccion de la fuerza","Multiplica la fuerza","Elimina la resistencia"],ans:1},
-{q:"Las tijeras y alicates son palanca de:",opts:["Primer grado","Segundo grado","Tercer grado","No son palancas"],ans:0},
-{q:"Que engranaje se usa para ejes que se cruzan a 90 grados?",opts:["Recto","Helicoidal","Conico","Cremallera"],ans:2},
-{q:"En una polea movil, cuantos segmentos de cuerda soportan la carga?",opts:["1","2","3","4"],ans:1},
-{q:"Cual NO es palanca de segundo grado?",opts:["Carretilla","Cascanueces","Cana de pescar","Abridor de botellas"],ans:2},
-{q:"Polipasto con 3 poleas moviles: la fuerza es:",opts:["F=R/3","F=R/6","F=R/8","F=R/9"],ans:1},
-{q:"Que mecanismo convierte movimiento circular en lineal?",opts:["Polea fija","Polipasto","Pinon-cremallera","Polea movil"],ans:2},
-{q:"La escoba al barrer es palanca de:",opts:["Primer grado","Segundo grado","Tercer grado","No es palanca"],ans:2},
-{q:"N1xZ1=N2xZ2. Si Z1 > Z2, entonces N2 es:",opts:["Menor que N1","Igual a N1","Mayor que N1","No se puede"],ans:2},
-{q:"VM de un polipasto 2 fijas + 2 moviles:",opts:["2","3","4","6"],ans:2},
-{q:"Que engranaje es mas silencioso que el recto?",opts:["Conico recto","Helicoidal","Cremallera","Tornillo sin fin"],ans:1},
-{q:"Carga 100 kg, palanca 1er grado, Br=25cm, Bp=100cm. Fuerza?",opts:["50 kg","25 kg","10 kg","100 kg"],ans:1},
-{q:"RT si Z1=15 y Z2=45:",opts:["3","1/3","30","60"],ans:1},
-{q:"Cual NO es maquina simple?",opts:["Polea","Palanca","Motor electrico","Plano inclinado"],ans:2},
-{q:"Que conecta el plato y el pinon en una bicicleta?",opts:["Correa","Cadena","Engranaje directo","Polea"],ans:1},
-{q:"Que sistema usarías para levantar la carga mas pesada con menos fuerza?",opts:["Polea fija","Polea movil","Polipasto con muchas poleas","Polea con correa"],ans:2},
-{q:"Que tipo de engranaje tiene dientes inclinados?",opts:["Conico","Helicoidal","Recto doble","Cremallera"],ans:1},
-{q:"Bp en palanca 1er grado de 2m si fulcro esta a 0.5m de la resistencia:",opts:["0.5m","1m","1.5m","2m"],ans:2},
-{q:"Para que sirve un engranaje loco intermedio?",opts:["Aumenta velocidad","Cambia al mismo sentido","Reduce fuerza","Duplica RT"],ans:1},
-{q:"Cual usa sistema de poleas?",opts:["Bicicleta","Ascensor","Automovil","Patines"],ans:1},
-{q:"Si en palanca de 2do grado R esta a 20cm y P a 100cm, la VM es:",opts:["2","3","5","10"],ans:2},
-{q:"Que mecanismo usa la izada de bandera?",opts:["Palanca 1er grado","Polea fija","Engranaje recto","Polipasto"],ans:1},
-{q:"Que pasa al conectar dos engranajes rectos?",opts:["Mismo sentido","Sentido contrario","Uno se detiene","Duplica velocidad"],ans:1},
-{q:"El brazo humano al levantar algo es palanca de:",opts:["1er grado","2do grado","3er grado","No es palanca"],ans:2},
-{q:"Que maquina combina poleas, palancas y engranajes?",opts:["Tijeras","Carretilla","Grua moderna","Balancin"],ans:2},
-{q:"Que mecanismo NO ahorra fuerza, solo cambia direccion?",opts:["Polea movil","Polipasto","Polea fija","Engranaje reductor"],ans:2}
+// ===== POLEAS (12 preguntas) =====
+{q:"Que tipo de polea ves en la imagen?",cat:"poleas",img:'<svg viewBox="0 0 80 90" width="70" height="80"><circle cx="40" cy="30" r="18" fill="none" stroke="#0f3460" stroke-width="3"/><circle cx="40" cy="30" r="3" fill="#e94560"/><line x1="40" y1="12" x2="40" y2="3" stroke="#333" stroke-width="2"/><polygon points="35,3 45,3 40,0" fill="#333"/><line x1="24" y1="44" x2="15" y2="80" stroke="#888" stroke-width="2"/><line x1="56" y1="44" x2="65" y2="80" stroke="#888" stroke-width="2"/><rect x="12" y="78" width="6" height="5" rx="1" fill="#555"/><rect x="63" y="78" width="6" height="5" rx="1" fill="#555"/></svg>',opts:["Polea movil","Polea fija","Polipasto","Polea con correa"],ans:1},
+{q:"Que ventaja tiene usar una polea fija?",cat:"poleas",opts:["Reduce la fuerza a la mitad","Cambia la direccion de la fuerza","Multiplica la fuerza","Elimina la resistencia"],ans:1},
+{q:"En una polea movil, cuantos segmentos de cuerda soportan la carga?",cat:"poleas",opts:["1","2","3","4"],ans:1},
+{q:"Polipasto con 3 poleas moviles: la fuerza es:",cat:"poleas",opts:["F=R/3","F=R/6","F=R/8","F=R/9"],ans:1},
+{q:"VM de un polipasto 2 fijas + 2 moviles:",cat:"poleas",opts:["2","3","4","6"],ans:2},
+{q:"Que sistema usarías para levantar la carga mas pesada con menos fuerza?",cat:"poleas",opts:["Polea fija","Polea movil","Polipasto con muchas poleas","Polea con correa"],ans:2},
+{q:"Que mecanismo usa la izada de bandera?",cat:"poleas",opts:["Palanca 1er grado","Polea fija","Engranaje recto","Polipasto"],ans:1},
+{q:"Cual usa sistema de poleas?",cat:"poleas",opts:["Bicicleta","Ascensor","Automovil","Patines"],ans:1},
+{q:"Que mecanismo NO ahorra fuerza, solo cambia direccion?",cat:"poleas",opts:["Polea movil","Polipasto","Polea fija","Engranaje reductor"],ans:2},
+{q:"Una polea movil tiene VM=2. Si la carga es de 150N, la fuerza necesaria es:",cat:"poleas",opts:["150 N","75 N","300 N","50 N"],ans:1},
+{q:"En un polipasto hay 6 cuerdas sosteniendo la carga. Si esta pesa 600N, la fuerza es:",cat:"poleas",opts:["600 N","300 N","200 N","100 N"],ans:3},
+{q:"La diferencia entre polea fija y polea movil es:",cat:"poleas",opts:["La fija cambia direccion, la movil ofrece VM=2","La movil es mas grande","La fija es mas cara","No hay diferencia"],ans:0},
+{q:"Las poleas con correa transmiten movimiento y:",cat:"poleas",opts:["Cambian el sentido de giro","No cambian el sentido de giro","Multiplican la fuerza","Solo sirven para frenar"],ans:1},
+
+// ===== PALANCAS (12 preguntas) =====
+{q:"Observa la imagen. De que grado es esta palanca?",cat:"palancas",img:'<svg viewBox="0 0 130 60" width="120" height="55"><line x1="10" y1="45" x2="65" y2="10" stroke="#8B4513" stroke-width="5"/><line x1="65" y1="10" x2="120" y2="45" stroke="#8B4513" stroke-width="5"/><circle cx="65" cy="10" r="4" fill="#0f3460"/><text x="65" y="22" text-anchor="middle" font-size="7">F</text><text x="30" y="38" font-size="9" fill="#e94560">P</text><text x="100" y="38" font-size="9" fill="#d4a017">R</text></svg>',opts:["Primer grado","Segundo grado","Tercer grado","No es palanca"],ans:0},
+{q:"Las tijeras y alicates son palanca de:",cat:"palancas",opts:["Primer grado","Segundo grado","Tercer grado","No son palancas"],ans:0},
+{q:"Cual NO es palanca de segundo grado?",cat:"palancas",opts:["Carretilla","Cascanueces","Cana de pescar","Abridor de botellas"],ans:2},
+{q:"La escoba al barrer es palanca de:",cat:"palancas",opts:["Primer grado","Segundo grado","Tercer grado","No es palanca"],ans:2},
+{q:"Carga 100 kg, palanca 1er grado, Br=25cm, Bp=100cm. Fuerza?",cat:"palancas",opts:["50 kg","25 kg","10 kg","100 kg"],ans:1},
+{q:"Bp en palanca 1er grado de 2m si fulcro esta a 0.5m de la resistencia:",cat:"palancas",opts:["0.5m","1m","1.5m","2m"],ans:2},
+{q:"Si en palanca de 2do grado R esta a 20cm y P a 100cm, la VM es:",cat:"palancas",opts:["2","3","5","10"],ans:2},
+{q:"El brazo humano al levantar algo es palanca de:",cat:"palancas",opts:["1er grado","2do grado","3er grado","No es palanca"],ans:2},
+{q:"Las partes de una palanca son:",cat:"palancas",opts:["Rueda, eje y cadena","Fulcro, potencia y resistencia","Diente, corona y pinon","Cuerda, gancho y peso"],ans:1},
+{q:"Una palanca de 1er grado tiene el fulcro:",cat:"palancas",opts:["En un extremo","En el centro, entre P y R","Junto a la potencia","No tiene fulcro"],ans:1},
+{q:"En una palanca de 3er grado, la potencia esta:",cat:"palancas",opts:["En un extremo, junto al fulcro","En el centro, entre fulcro y R","En el extremo opuesto al fulcro","No hay potencia"],ans:1},
+{q:"Una palanca con VM=0.5 significa que:",cat:"palancas",opts:["Se gana fuerza","Esta equilibrada","Se gana distancia y se pierde fuerza","No sirve"],ans:2},
+{q:"La ley de la palanca establece que:",cat:"palancas",opts:["P + R = F","P x Bp = R x Br","P / R = Br / Bp","P x R = Bp x Br"],ans:1},
+
+// ===== ENGRANAJES (12 preguntas) =====
+{q:"Un engranaje de 20 dientes a 600 rpm acoplado a uno de 40 dientes. Velocidad del segundo?",cat:"engranajes",opts:["1200 rpm","600 rpm","300 rpm","150 rpm"],ans:2},
+{q:"Que engranaje se usa para ejes que se cruzan a 90 grados?",cat:"engranajes",opts:["Recto","Helicoidal","Conico","Cremallera"],ans:2},
+{q:"Que mecanismo convierte movimiento circular en lineal?",cat:"engranajes",opts:["Polea fija","Polipasto","Pinon-cremallera","Polea movil"],ans:2},
+{q:"N1xZ1=N2xZ2. Si Z1 > Z2, entonces N2 es:",cat:"engranajes",opts:["Menor que N1","Igual a N1","Mayor que N1","No se puede"],ans:2},
+{q:"Que engranaje es mas silencioso que el recto?",cat:"engranajes",opts:["Conico recto","Helicoidal","Cremallera","Tornillo sin fin"],ans:1},
+{q:"RT si Z1=15 y Z2=45:",cat:"engranajes",opts:["3","1/3","30","60"],ans:1},
+{q:"Que conecta el plato y el pinon en una bicicleta?",cat:"engranajes",opts:["Correa","Cadena","Engranaje directo","Polea"],ans:1},
+{q:"Que tipo de engranaje tiene dientes inclinados?",cat:"engranajes",opts:["Conico","Helicoidal","Recto doble","Cremallera"],ans:1},
+{q:"Para que sirve un engranaje loco intermedio?",cat:"engranajes",opts:["Aumenta velocidad","Cambia al mismo sentido","Reduce fuerza","Duplica RT"],ans:1},
+{q:"Que pasa al conectar dos engranajes rectos?",cat:"engranajes",opts:["Mismo sentido","Sentido contrario","Uno se detiene","Duplica velocidad"],ans:1},
+{q:"Que NO es un tipo de engranaje?",cat:"engranajes",opts:["Helicoidal","Conico","Polea","Sin fin"],ans:2},
+{q:"El piñon es un engranaje que:",cat:"engranajes",opts:["Tiene mas dientes que la corona","Tiene menos dientes que la corona","Siempre es fijo","No tiene eje"],ans:1},
+{q:"Un tornillo sin fin sirve para:",cat:"engranajes",opts:["Aumentar mucho la velocidad","Obtener gran reduccion y es autorretenedor","Cambiar el sentido de giro","No tiene uso"],ans:1},
+
+// ===== MIXTAS (4 preguntas) =====
+{q:"Cual NO es maquina simple?",cat:"mixta",opts:["Polea","Palanca","Motor electrico","Plano inclinado"],ans:2},
+{q:"Que maquina combina poleas, palancas y engranajes?",cat:"mixta",opts:["Tijeras","Carretilla","Grua moderna","Balancin"],ans:2},
+{q:"Una bicicleta es un ejemplo de maquina compuesta porque usa:",cat:"mixta",opts:["Solo palancas","Solo engranajes","Palancas, engranajes, poleas con correa y cadenas","Solo poleas"],ans:2},
+{q:"Un ascensor moderno combina:",cat:"mixta",opts:["Solo poleas","Polipasto + engranajes del motor + palancas de freno","Solo engranajes","Solo palancas"],ans:1}
 ];
 
 let preguntas=[],respuestas=[];
 function shuffleArray(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 
 function initEval(){
-    const s=shuffleArray([...banco]);
-    preguntas=s.slice(0,20);
+    const poleas=shuffleArray(banco.filter(p=>p.cat==='poleas'));
+    const palancas=shuffleArray(banco.filter(p=>p.cat==='palancas'));
+    const engranajes=shuffleArray(banco.filter(p=>p.cat==='engranajes'));
+    const mixtas=shuffleArray(banco.filter(p=>p.cat==='mixta'));
+    const sel=[...poleas.slice(0,7),...palancas.slice(0,7),...engranajes.slice(0,6)];
+    preguntas=shuffleArray(sel);
     respuestas=new Array(20).fill(null);
     const c=document.getElementById('preguntasEval');
     c.innerHTML='';
@@ -670,10 +695,10 @@ function calificarEval(){
         rd.style.display='block';rd.innerHTML=`${ic} <b>Resp:</b> ${l[p.ans]}. ${p.opts[p.ans]}`;
         if(respuestas[i]===p.ans){c++;rd.style.background='#d4edda';rd.style.color='#155724';}else{rd.style.background='#f8d7da';rd.style.color='#721c24';}
     });
-    const n=(c/preguntas.length)*5,e=document.getElementById('notaEval');
-    e.textContent=n.toFixed(1);e.className='nota '+(n>=3.0?'aprobado':'reprobado');
+    const n=(c/preguntas.length)*10,e=document.getElementById('notaEval');
+    e.textContent=n.toFixed(1);e.className='nota '+(n>=6.0?'aprobado':'reprobado');
     document.getElementById('detalleEval').innerHTML=`Correctas: ${c}/${preguntas.length} | Incorrectas: ${preguntas.length-c}`;
-    document.getElementById('mensajeEval').textContent=n>=4.5?'Excelente!':n>=3.0?'Bien, repasa lo que fallaste.','Repasa la guia e intenta de nuevo.';
+    document.getElementById('mensajeEval').textContent=n>=9?'Excelente! Dominas las maquinas simples.':n>=7?'Muy bien! Repasa lo que fallaste.':n>=6?'Aprobado. Necesitas reforzar algunos temas.':'No aprobado. Repasa la guia completa e intenta de nuevo.';
     document.getElementById('resultadoEval').classList.add('mostrar');
 }
 
