@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poleas, Palancas y Engranajes - Taller Grado Séptimo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f4f8; color: #333; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        header { background: linear-gradient(135deg, #e65100, #bf360c); color: white; padding: 40px 20px; text-align: center; border-radius: 0 0 15px 15px; }
+        header h1 { font-size: 2.2em; margin-bottom: 10px; }
+        header p { font-size: 1.1em; opacity: 0.9; }
+        .volver { display: inline-block; margin-top: 15px; color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 20px; transition: background 0.3s; }
+        .volver:hover { background: rgba(255,255,255,0.35); }
+        .seccion { background: white; border-radius: 10px; padding: 30px; margin-top: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+        .seccion h2 { color: #e65100; margin-bottom: 15px; font-size: 1.5em; border-bottom: 2px solid #ff9800; padding-bottom: 8px; }
+        .seccion h3 { color: #bf360c; margin: 15px 0 8px; }
+        .seccion p, .seccion li { font-size: 1em; line-height: 1.7; color: #555; }
+        .seccion ul { margin-left: 20px; margin-bottom: 10px; }
+        .maquina { background: #fff3e0; border-left: 4px solid #ff9800; padding: 15px 20px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+        .maquina h3 { margin-top: 0; color: #e65100; }
+        .actividad { background: #e8f5e9; border-left: 4px solid #4caf50; padding: 15px 20px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+        .actividad h3 { margin-top: 0; color: #2e7d32; }
+        .evaluacion { background: #e3f2fd; border-left: 4px solid #2196f3; padding: 15px 20px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+        .evaluacion h3 { margin-top: 0; color: #1565c0; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { border: 1px solid #ddd; padding: 10px 12px; text-align: left; }
+        th { background: #ff9800; color: white; }
+        tr:nth-child(even) { background: #fff8e1; }
+        footer { text-align: center; margin-top: 40px; padding: 20px; color: #999; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Taller: Poleas, Palancas y Engranajes</h1>
+        <p>Máquinas simples y su aplicacion en la vida cotidiana</p>
+        <a href="index.html" class="volver">Volver al inicio</a>
+    </header>
+    <div class="container">
+
+        <div class="seccion">
+            <h2>1. Objetivo</h2>
+            <p>Comprender el funcionamiento de las máquinas simples (poleas, palancas y engranajes), identificar sus partes, clasificarlas y aplicar los conceptos de fuerza y ventaja mecánica en problemas de la vida cotidiana.</p>
+        </div>
+
+        <div class="seccion">
+            <h2>2. Contenido Teórico</h2>
+
+            <div class="maquina">
+                <h3>2.1 Las Palancas</h3>
+                <p>Una palanca es una barra rígida que gira alrededor de un punto llamado <strong>fulcro</strong> o punto de apoyo.</p>
+                <h3>Partes de la palanca:</h3>
+                <ul>
+                    <li><strong>Fulcro (F):</strong> punto de apoyo o giro.</li>
+                    <li><strong>Potencia (P):</strong> fuerza que se aplica para mover la carga.</li>
+                    <li><strong>Carga o Resistencia (R):</strong> peso o fuerza que se desea mover.</li>
+                </ul>
+                <h3>Clasificación de las palancas:</h3>
+                <table>
+                    <tr><th>Tipo</th><th>Ubicación del Fulcro</th><th>Ejemplo</th></tr>
+                    <tr><td>1er orden</td><td>Entre Potencia y Carga</td><td>Tijeras, balanza, alicates</td></tr>
+                    <tr><td>2do orden</td><td>En un extremo (junto a la carga)</td><td>Carretilla, abrebotellas</td></tr>
+                    <tr><td>3er orden</td>En un extremo (junto a la potencia)</td><td>Pinzas, brazo humano,tenis</td></tr>
+                </table>
+                <p><strong>Ventaja Mecánica (VM):</strong> VM = Distancia del fulcro a la Potencia / Distancia del fulcro a la Carga</p>
+            </div>
+
+            <div class="maquina">
+                <h3>2.2 Las Poleas</h3>
+                <p>Una polea es una rueda con una cuerda o cable que se enrolla en su borde. Sirve para <strong>levantar o desplazar</strong> cargas cambiando la dirección de la fuerza.</p>
+                <h3>Tipos de poleas:</h3>
+                <ul>
+                    <li><strong>Polea fija:</strong> Solo cambia la dirección de la fuerza. VM = 1 (ej: izbanda de bandera).</li>
+                    <li><strong>Polea móvil:</strong> Se mueve con la carga. VM = 2 (ej: elevador de pozo).</li>
+                    <li><strong>Sistema de poleas (polipasto):</strong> Combinación de poleas fijas y móviles. VM = número de cuerdas que sostienen la carga.</li>
+                </ul>
+            </div>
+
+            <div class="maquina">
+                <h3>2.3 Los Engranajes</h3>
+                <p>Los engranajes son ruedas dentadas que se enlazan entre sí para <strong>transmitir movimiento y fuerza</strong> entre ejes.</p>
+                <h3>Partes:</h3>
+                <ul>
+                    <li><strong>Dientes:</strong> proyecciones que encajan con otro engranaje.</li>
+                    <li><strong>Eje:</strong> barra central sobre la que gira la rueda.</li>
+                    <li><strong>Corona:</strong> engranaje de mayor tamaño.</li>
+                    <li><strong>Piñón:</strong> engranaje de menor tamaño.</li>
+                </ul>
+                <p><strong>Relación de transmisión:</strong> RT = Número de dientes del_segundo / Número de dientes del primero</p>
+                <p>Si el piñón tiene menos dientes que la corona, se gana <strong>fuerza</strong> pero se pierde velocidad, y viceversa.</p>
+            </div>
+        </div>
+
+        <div class="seccion">
+            <h2>3. Actividades Prácticas</h2>
+
+            <div class="actividad">
+                <h3>Actividad 1: Construcción de una palanca</h3>
+                <p><strong>Materiales:</strong> Regla de madera o lápiz largo, soporte (cubo o ficha), objeto pequeño (goma, moneda).</p>
+                <p><strong>Procedimiento:</strong></p>
+                <ul>
+                    <li>Coloca el soporte como fulcro en el centro de la regla.</li>
+                    <li>Coloca un objeto en un extremo (carga).</li>
+                    <li>Presiona el otro extremo (potencia).</li>
+                    <li>Mueve el fulcro hacia la carga y observa qué sucede.</li>
+                    <li>Registra las distancias y calcula la ventaja mecánica.</li>
+                </ul>
+            </div>
+
+            <div class="actividad">
+                <h3>Actividad 2: Sistema de polea simple</h3>
+                <p><strong>Materiales:</strong> Polea (o carrete), cuerda, objeto de peso conocido, dinamómetro.</p>
+                <ul>
+                    <li>Pasa la cuerda por la polea fija.</li>
+                    <li>Ata un peso en un extremo y jala desde el otro.</li>
+                    <li>Mide la fuerza necesaria con el dinamómetro.</li>
+                    <li>Compara con y sin polea.</li>
+                </ul>
+            </div>
+
+            <div class="actividad">
+                <h3>Actividad 3: Engranajes caseros</h3>
+                <p><strong>Materiales:</strong> Tapas de botella, palitos de helado, pegante.</p>
+                <ul>
+                    <li>Corta tiras de cartón con dientes simulados.</li>
+                    <li>Une dos ruedas dentadas con un eje (palito).</li>
+                    <li>Observa cómo al girar una, la otra gira en dirección opuesta.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="seccion">
+            <h2>4. Ejercicios de Práctica</h2>
+            <ol>
+                <li>Si una palanca tiene el fulcro a 30 cm de la potencia y a 10 cm de la carga, ¿cuál es su ventaja mecánica?</li>
+                <li>Un sistema de poleas tiene 4 cuerdas sosteniendo la carga. Si la carga pesa 200 N, ¿qué fuerza se necesita para levantarla?</li>
+                <li>Un piñón de 10 dientes se conecta con una corona de 40 dientes. ¿Cuál es la relación de transmisión?</li>
+                <li>Identifica 3 ejemplos de cada tipo de máquina simple en tu hogar o escuela.</li>
+            </ol>
+        </div>
+
+        <div class="seccion">
+            <h2>5. Evaluación</h2>
+            <div class="evaluacion">
+                <h3>Criterios de evaluación</h3>
+                <table>
+                    <tr><th>Indicador</th><th>Logrado</th><th>En proceso</th><th>Por lograr</th></tr>
+                    <tr><td>Identifica las partes de una palanca</td><td></td><td></td><td></td></tr>
+                    <tr><td>Clasifica palancas según su orden</td><td></td><td></td><td></td></tr>
+                    <tr><td>Calcula la ventaja mecánica</td><td></td><td></td><td></td></tr>
+                    <tr><td>Diferencia entre polea fija y móvil</td><td></td><td></td><td></td></tr>
+                    <tr><td>Explica la función de los engranajes</td><td></td><td></td><td></td></tr>
+                    <tr><td>Propone soluciones usando máquinas simples</td><td></td><td></td><td></td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="seccion">
+            <h2>6. Recursos Adicionales</h2>
+            <ul>
+                <li>Video: "Máquinas simples para niños" - YouTube</li>
+                <li>Simulación interactiva: PhET - Palancas</li>
+                <li>Infografía: Clasificación de máquinas simples</li>
+            </ul>
+        </div>
+
+    </div>
+    <footer>
+        <p>&copy; 2026 Talleres Grado Séptimo</p>
+    </footer>
+</body>
+</html>
