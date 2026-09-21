@@ -339,15 +339,23 @@
 
 <!-- ==================== PESTANA 3: EVALUACION ==================== -->
 <div id="evaluacion" class="tab-content">
+    <div class="card">
+        <h2>Evaluacion: Delitos Informaticos</h2>
+        <p>Lee cada situacion de la vida real cuidadosamente y escoge el delito informatico que se esta cometiendo. Esta evaluacion tiene un <strong>nivel alto</strong>: debes analizar el contexto, identificar el tipo de delito y conocer las consecuencias legales.</p>
+        <div class="highlight">
+            <strong>Instrucciones:</strong> Responde las 25 preguntas. Al finalizar, presiona <strong>"Calificar Mi Prueba"</strong> para ver tu resultado. Puedes presentar la prueba hasta <strong>3 veces</strong>. Tu calificacion final sera la mejor de todas.
+        </div>
+    </div>
+
     <div class="attempt-info">
-        Intento: <span id="attempt-num">1</span> de 3 | Puntaje acumulado mejor intento: <span id="best-score">-</span>/10
+        Intento: <span id="attempt-num">1</span> de 3 | Tu mejor calificacion: <span id="best-score">-</span>/10
     </div>
 
     <div id="quiz-container"></div>
 
-    <div style="text-align:center; margin: 20px 0;">
-        <button class="btn btn-primary" onclick="submitQuiz()">Enviar Respuestas</button>
-        <button class="btn btn-warning" onclick="resetQuiz()" style="display:none;" id="retry-btn">Siguiente Intento</button>
+    <div style="text-align:center; margin: 25px 0;">
+        <button class="btn btn-success" onclick="submitQuiz()" id="calificar-btn" style="font-size:1.1em; padding:14px 40px;">Calificar Mi Prueba</button>
+        <button class="btn btn-danger" onclick="resetQuiz()" style="display:none; font-size:1.1em; padding:14px 40px;" id="retry-btn">Reiniciar Prueba</button>
     </div>
 
     <div id="quiz-result" style="display:none;"></div>
@@ -551,31 +559,31 @@ function resetMatches() {
 
 // ==================== EVALUACION ====================
 const quizQuestions = [
-    {q: '1. Que son los delitos informaticos?', o: ['Actos delictivos cometidos usando dispositivos electronicos','Delitos que solo ocurren en la calle','Errores de programacion en computadores','Accidentes de internet'], a: 0},
-    {q: '2. En que ano se aprobo la Ley que regula los delitos informaticos en Colombia?', o: ['2005','2009','2015','2020'], a: 1},
-    {q: '3. Que es el phishing?', o: ['Un tipo de virus','Una tecnica para obtener datos haciendose pasar por una entidad de confianza','Un programa de antivirus','Un tipo de contraseña'], a: 1},
-    {q: '4. Que hace el ransomware?', o: ['Borra todos los archivos permanentemente','Cifra los archivos y pide un rescate economico','Roba contrasenas del teclado','Envia correos automaticos'], a: 1},
-    {q: '5. Que es un troyano?', o: ['Un tipo de firewall','Un programa que se disfraza de legitimo para robar informacion','Un tipo de virus que borra archivos','Una red segura'], a: 1},
-    {q: '6. El acceso abusivo a un sistema informatico se refiere a:', o: ['Entrar sin autorizacion a una computadora o cuenta','Usar internet en un ciber cafe','Compartir archivos con amigos','Actualizar el sistema operativo'], a: 0},
-    {q: '7. Que es un ataque DDoS?', o: ['Un virus que se copia solo','Inundar un servicio online con trafico falso para hacerlo caer','Robar datos personales','Enviar spam por correo'], a: 1},
-    {q: '8. Interceptar conversaciones de WhatsApp sin permiso es:', o: ['Un delito informatico','Algo legal','Un juego','Una actualizacion de la app'], a: 0},
-    {q: '9. Que es la ingenieria social?', o: ['Un tipo de codigo','Manipular a personas para obtener informacion confidencial','Una carrera universitaria','Un tipo de computador'], a: 1},
-    {q: '10. Cual es la pena minima por delitos informaticos en Colombia?', o: ['1 ano','2 anos','4 anos','8 anos'], a: 2},
-    {q: '11. Que medida de seguridad recomiendan los expertos para las contrasenas?', o: ['Usar solo tu fecha de nacimiento','Usar la misma contrasena en todas las cuentas','Usar minimo 12 caracteres con mayusculas, numeros y simbolos','No usar contrasenas'], a: 2},
-    {q: '12. Que es la autenticacion de dos factores (2FA)?', o: ['Usar dos contrasenas diferentes','Un sistema que requiere dos formas de verificar tu identidad','Conectarte a dos redes a la vez','Usar dos computadores'], a: 1},
-    {q: '13. Que es el spyware?', o: ['Un antivirus','Software que espia tu actividad sin que lo sepas','Un tipo de firewall','Una red social'], a: 1},
-    {q: '14. Suplantar una pagina web para robar datos se llama:', o: ['Vishing','Pharming','Phishing o suplantacion web','Smishing'], a: 2},
-    {q: '15. Que entidad investiga los delitos informaticos en Colombia?', o: ['El Senado','El Centro Cibernetico Policial','La Superintendencia de Comercio','El Ministerio de Educacion'], a: 1},
-    {q: '16. Que es la Ley 1273 de 2009?', o: ['Una ley de educacion','Una ley que tipifica los delitos informaticos en Colombia','Una ley de salud','Una ley ambiental'], a: 1},
-    {q: '17. Que debes hacer si eres victima de un delito informatico?', o: ['Ignorar el problema','Conservar evidencia y denunciar en el CAI Virtual','Borrar todo y olvidar','No hacer nada'], a: 1},
-    {q: '18. El robo de identidad digital consiste en:', o: ['Tomar fotos a alguien','Suplantar la identidad de una persona para cometer fraudes','Crear un perfil falso en redes sociales','Cambiar tu nombre'], a: 1},
-    {q: '19. Que es el malware?', o: ['Un tipo de internet','Cualquier software disenado para danar sistemas','Un navegador web','Un tipo de contrasena'], a: 1},
-    {q: '20. Cual de estas es una medida de proteccion?', o: ['No actualizar el software','Hacer clic en cualquier enlace','Usar antivirus actualizado','Compartir tu contrasena'], a: 2},
-    {q: '21. Que es el hurto por medios informaticos?', o: ['Robar una computadora fisicamente','Apoderarse de bienes ajenos manipulando sistemas informaticos','Prestar dinero por internet','Vender computadores usados'], a: 1},
-    {q: '22. Que haces si recibes un correo sospechoso del banco?', o: ['Haces clic en el enlace inmediatamente','Lo reenvias a todos tus contactos','No haces clic y verificas con el banco directamente','Borras tu correo'], a: 2},
-    {q: '23. En Colombia, los delitos informaticos pueden tener penas de hasta:', o: ['2 anos','5 anos','8 anos','12 anos'], a: 3},
-    {q: '24. Que es un ataque de fuerza bruta?', o: ['Un golpe fisico a la computadora','Probar multiples contrasenas hasta encontrar la correcta','Un tipo de virus','Una actualizacion de windows'], a: 1},
-    {q: '25. Cual es el primer paso para protegerte en internet?', o: ['Tener muchas redes sociales','Usar contrasenas fuertes y unicas','Compartir tu ubicacion','Descargar todo lo que veas'], a: 1}
+    {q: '1. Maria recibe un mensaje de texto que dice: "Banco Popular: Tu cuenta ha sido bloqueada. Ingresa a este enlace para activarla: www.banco-popular-servicios.com". Al hacer clic, le piden numero de cedula y clave. ¿Qué delito informático se está cometiendo?', o: ['Ransomware','Suplantación de sitio web (Phishing)','Daño informático','Interceptación de datos'], a: 1},
+    {q: '2. Carlos, de 13 años, descarga un juego "gratis" de internet. Dos días después, su computador empieza a funcionar lento, aparecen ventanas emergentes y su cámara se enciende sola. ¿Qué tipo de software malicioso instaló?', o: ['Antivirus','Firewall','Spyware','Backup'], a: 2},
+    {q: '3. Una empresa de delivery recibió un correo que parecía venir de su proveedor de servicios, pidiendo actualizar datos bancarios. El empleado respondió y transferieron $5.000.000 a una cuenta falsa. Identifica el delito:', o: ['Acceso abusivo a sistema informático','Ingeniería social para obtener transferencia fraudulenta','Daño informático','Ciberacoso'], a: 1},
+    {q: '4. Andrea publicó fotos íntimas de su exnovia en redes sociales sin su consentimiento, causándole un gran daño emocional. Además de los delitos contra la vida privada, ¿qué delito informático se configura?', o: ['Phishing','Violación de datos personales','Ransomware','Ataque DDoS'], a: 1},
+    {q: '5. Un grupo de estudiantes ingresó al sistema académico de su colegio sin permiso y cambió las notas de varios compañeros. ¿Qué delito cometieron según la Ley 1273 de 2009?', o: ['Suplantación de identidad','Uso de software malicioso','Acceso abusivo a sistema informático','Interceptación de datos'], a: 2},
+    {q: '6. Laura recibió un correo electrónico con un archivo adjunto llamado "Factura pendiente.pdf". Al abrirlo, todos los archivos de su computador se cifraron y apareció un mensaje: "Pague 500 dólares en Bitcoin para recuperar sus datos". ¿Con qué tipo de ataque fue víctima?', o: ['Phishing','Malware tipo Troyano','Ransomware','Spyware'], a: 2},
+    {q: '7. Diego trabaja en una empresa y conectó su USB con información confidencial a una computadora pública en un café internet. Un día después, la empresa fue hackeada. ¿Qué错误 de seguridad cometió Diego que facilitó el ataque?', o: ['Usar contraseña débil','Conectar dispositivos con información sensible en equipos públicos','No tener antivirus','Usar WiFi público'], a: 1},
+    {q: '8. Un grupo de hackers inundó el servidor del banco durante 3 horas con millones de solicitudes falsas, impidiendo que los clientes realizaran transacciones. ¿Qué tipo de ataque fue?', o: ['Phishing','Ransomware','Ataque de denegación de servicio (DDoS)','Ingeniería social'], a: 2},
+    {q: '9. Valentina instaló una aplicación de mensajería "mejorada" que prometía funciones exclusivas. Resultó ser un troyano que robó todas sus contraseñas de redes sociales y las envió a un servidor en el exterior. ¿Qué delito se cometió contra Valentina?', o: ['Ciberacoso','Uso de software malicioso (troyano)','Hurto por medios informáticos','Suplantación web'], a: 1},
+    {q: '10. Sebastián, de 14 años, creó una página web que imitaba perfectamente la de una tienda de ropa popular. Los clientes que compraban ahí nunca recibieron sus productos y perdieron su dinero. ¿Qué delito está cometiendo Sebastián?', o: ['Daño informático','Suplantación de sitios web para capturar datos y dinero','Acceso abusivo','Ransomware'], a: 1},
+    {q: '11. La mamá de Andrés le contó que alguien abrió una tarjeta de crédito a nombre de ella usando sus datos personales, sin que ella lo supiera. ¿Qué delito informático se configura?', o: ['Robo de identidad digital','Phishing','Malware','Ataque DDoS'], a: 0},
+    {q: '12. Un ex empleado de una empresa de tecnología, aún con acceso al sistema, borró archivos importantes de la base de datos antes de irse. ¿Qué delito cometió según el Art. 269D del Código Penal?', o: ['Acceso abusivo a sistema informático','Daño informático','Interceptación de datos','Transferencia no consentida'], a: 1},
+    {q: '13. Camila recibió una llamada telefónica de alguien que se hizo pasar por un técnico de su proveedor de internet. Le pidió la contraseña del WiFi y datos de su tarjeta de crédito. ¿Qué técnica criminal se utilizó?', o: ['Phishing telefónico (Vishing)','Ransomware','Spyware','Keylogger'], a: 0},
+    {q: '14. Un delincuente instaló un programa en una empresa que grababa todo lo que escribían los empleados en sus teclados, capturando contraseñas y datos bancarios. ¿Qué tipo de software malicioso utilizó?', o: ['Adware','Ransomware','Keylogger (tipo spyware)','Virus'], a: 2},
+    {q: '15. La Superintendencia de Industria y Comercio (SIC) multó a una empresa por vender bases de datos de sus clientes a terceros sin autorización. ¿Qué delito informático comete la empresa?', o: ['Acceso abusivo','Hurto por medios informáticos','Violación de datos personales','Suplantación web'], a: 2},
+    {q: '16. Mateo recibió un correo de su "mejor amigo" pidiéndole dinero urgente porque tuvo un accidente. El correo había sido hackeado. Si Mateo hubiera transferido el dinero, ¿qué delito se habría cometido además del acceso abusivo?', o: ['Ciberacoso','Fraude financiero por medios informáticos','Ransomware','Daño informático'], a: 1},
+    {q: '17. Una ciberbanda creó una red de computadoras "zombis" controladas remotamente para atacar el sitio web de un candidato político durante las elecciones. ¿Qué concepto describe esta red de dispositivos comprometidos?', o: ['Servidor proxy','Botnet (red de robots)','Red VPN','Firewall'], a: 1},
+    {q: '18. Daniela descubrió que alguien instaló un software en su celular que grababa sus conversaciones de WhatsApp y las enviaba a un tercero. Según la legislación colombiana, ¿qué delito se configura?', o: ['Daño informático','Interceptación de datos informáticos','Acceso abusivo','Suplantación web'], a: 1},
+    {q: '19. Un grupo de adolescentes hackeó las cámaras de seguridad de una empresa para obtener información confidencial y venderla a la competencia. ¿Qué delito comete quien obtiene información política, económica o industrial de forma encubierta?', o: ['Phishing','Ciberespionaje','Ransomware','Ingeniería social'], a: 1},
+    {q: '20. El Banco Nacional informó a sus clientes que no deben hacer clic en enlaces de correos que soliciten "actualizar datos bancarios" sin verificar primero la URL oficial. ¿Por qué es importante verificar la URL?', o: ['Porque puede ser una suplantación de sitio web (phishing)','Porque puede ser un virus','Porque puede ser spam','Porque puede ser un anuncio'], a: 0},
+    {q: '21. Fernando, de 12 años, creó un perfil falso de una compañera en Instagram con fotos sacadas de su perfil real y publicó comentarios ofensivos. ¿Qué tipos de delitos se están configurando simultáneamente?', o: ['Solo daño informático','Violación de datos personales y ciberacoso','Solo phishing','Solo acceso abusivo'], a: 1},
+    {q: '22. Una empresa recibió un mensaje de un grupo criminal que decía: "Tenemos acceso a su base de datos de clientes. Si no pagan 10.000.000 de pesos, publicaremos toda la información". ¿Qué delito se configura además de la violación de datos?', o: ['Extorsión informática','Phishing','Ransomware','Daño informático'], a: 0},
+    {q: '23. Camila intentó iniciar sesión en su correo pero la contraseña no funcionó. Al recuperar la cuenta, encontró que el atacante cambió la contraseña y activó la verificación en dos pasos con su número. Según la Ley 1273, ¿qué delito se configura?', o: ['Daño informático','Uso de software malicioso','Acceso abusivo a sistema informático','Interceptación de datos'], a: 2},
+    {q: '24. Un programa gratuito que-descargó Sofía mostraba ventanas emergentes con publicidad constantemente y ralentizaba el computador, además de recopilar sus hábitos de navegación. ¿Qué tipo de software maligno combina estas características?', o: ['Ransomware y keylogger','Adware malicioso y spyware','Virus y troyano','Worm y rootkit'], a: 1},
+    {q: '25. Según la legislación colombiana, si un delito informático se comete contra menores de edad o con fines terroristas, la pena se incrementa. ¿Cuál es la pena máxima que puede alcanzar un delito informático con estas agravantes?', o: ['8 años de prisión','10 años de prisión','12 años de prisión','15 años de prisión'], a: 2}
 ];
 
 let currentAttempt = 0;
@@ -603,11 +611,13 @@ function submitQuiz() {
     if (quizAnswered) return;
     quizAnswered = true;
     let correct = 0;
+
     quizQuestions.forEach((q, i) => {
         const selected = document.querySelector('input[name="q'+i+'"]:checked');
         const userAnswer = selected ? parseInt(selected.value) : -1;
         q.o.forEach((_, j) => {
             const label = document.getElementById('ql-'+i+'-'+j);
+            label.classList.remove('selected');
             if (j === q.a) label.classList.add('correct');
             if (j === userAnswer && j !== q.a) label.classList.add('incorrect');
         });
@@ -622,15 +632,25 @@ function submitQuiz() {
     if (parseFloat(score) > bestScore) bestScore = parseFloat(score);
     currentAttempt++;
 
-    document.getElementById('attempt-num').textContent = currentAttempt;
+    document.getElementById('attempt-num').textContent = currentAttempt > 3 ? 3 : currentAttempt;
     document.getElementById('best-score').textContent = bestScore;
+
+    let emoji = '';
+    if (parseFloat(score) >= 9) emoji = '¡Excelente! Dominas el tema.';
+    else if (parseFloat(score) >= 7) emoji = '¡Muy bien! Tienes buen conocimiento.';
+    else if (parseFloat(score) >= 5) emoji = 'Aceptable. Repasa la guia del tema.';
+    else emoji = 'Necesitas mejorar. Revisa la guia y vuelve a intentar.';
 
     const result = document.getElementById('quiz-result');
     result.style.display = 'block';
-    result.innerHTML = '<div class="final-score"><h2>Tu calificacion: ' + score + ' / 10</h2><p>Respuestas correctas: ' + correct + ' de ' + quizQuestions.length + '</p>' +
-        (currentAttempt < 3 ? '<p style="margin-top:10px;">Puedes intentarlo ' + (3-currentAttempt) + ' vez(es) mas</p>' : '<p style="margin-top:10px;">Has agotado tus 3 intentos</p>') +
+    result.innerHTML = '<div class="final-score">' +
+        '<h2>Tu Calificacion: ' + score + ' / 10</h2>' +
+        '<p style="font-size:1.3em; margin:10px 0;">Respuestas correctas: ' + correct + ' de ' + quizQuestions.length + '</p>' +
+        '<p style="font-size:1.1em; background:#ffffff22; padding:10px; border-radius:8px; display:inline-block;">' + emoji + '</p>' +
+        (currentAttempt < 3 ? '<p style="margin-top:15px; opacity:0.8;">Te quedan ' + (3-currentAttempt) + ' intento(s) mas</p>' : '<p style="margin-top:15px; opacity:0.8;">Has agotado tus 3 intentos. Tu calificacion final es: <strong>' + bestScore + '</strong></p>') +
         '</div>';
 
+    document.getElementById('calificar-btn').style.display = 'none';
     if (currentAttempt < 3) {
         document.getElementById('retry-btn').style.display = 'inline-block';
     }
@@ -644,9 +664,11 @@ function resetQuiz() {
             label.classList.remove('selected','correct','incorrect');
             label.querySelector('input').checked = false;
         });
-        document.getElementById('qcard-'+i).classList.remove('correct','incorrect');
     });
     document.getElementById('quiz-result').style.display = 'none';
+    document.getElementById('retry-btn').style.display = 'none';
+    document.getElementById('calificar-btn').style.display = 'inline-block';
+    window.scrollTo({top: document.getElementById('evaluacion').offsetTop - 20, behavior: 'smooth'});
 }
 
 // ==================== INICIALIZACION ====================
