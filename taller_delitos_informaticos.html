@@ -558,42 +558,81 @@ function resetMatches() {
 }
 
 // ==================== EVALUACION ====================
-const quizQuestions = [
-    {q: '1. Maria recibe un mensaje de texto que dice: "Banco Popular: Tu cuenta ha sido bloqueada. Ingresa a este enlace para activarla: www.banco-popular-servicios.com". Al hacer clic, le piden numero de cedula y clave. ¿Qué delito informático se está cometiendo?', o: ['Ransomware','Suplantación de sitio web (Phishing)','Daño informático','Interceptación de datos'], a: 1},
-    {q: '2. Carlos, de 13 años, descarga un juego "gratis" de internet. Dos días después, su computador empieza a funcionar lento, aparecen ventanas emergentes y su cámara se enciende sola. ¿Qué tipo de software malicioso instaló?', o: ['Antivirus','Firewall','Spyware','Backup'], a: 2},
-    {q: '3. Una empresa de delivery recibió un correo que parecía venir de su proveedor de servicios, pidiendo actualizar datos bancarios. El empleado respondió y transferieron $5.000.000 a una cuenta falsa. Identifica el delito:', o: ['Acceso abusivo a sistema informático','Ingeniería social para obtener transferencia fraudulenta','Daño informático','Ciberacoso'], a: 1},
-    {q: '4. Andrea publicó fotos íntimas de su exnovia en redes sociales sin su consentimiento, causándole un gran daño emocional. Además de los delitos contra la vida privada, ¿qué delito informático se configura?', o: ['Phishing','Violación de datos personales','Ransomware','Ataque DDoS'], a: 1},
-    {q: '5. Un grupo de estudiantes ingresó al sistema académico de su colegio sin permiso y cambió las notas de varios compañeros. ¿Qué delito cometieron según la Ley 1273 de 2009?', o: ['Suplantación de identidad','Uso de software malicioso','Acceso abusivo a sistema informático','Interceptación de datos'], a: 2},
-    {q: '6. Laura recibió un correo electrónico con un archivo adjunto llamado "Factura pendiente.pdf". Al abrirlo, todos los archivos de su computador se cifraron y apareció un mensaje: "Pague 500 dólares en Bitcoin para recuperar sus datos". ¿Con qué tipo de ataque fue víctima?', o: ['Phishing','Malware tipo Troyano','Ransomware','Spyware'], a: 2},
-    {q: '7. Diego trabaja en una empresa y conectó su USB con información confidencial a una computadora pública en un café internet. Un día después, la empresa fue hackeada. ¿Qué错误 de seguridad cometió Diego que facilitó el ataque?', o: ['Usar contraseña débil','Conectar dispositivos con información sensible en equipos públicos','No tener antivirus','Usar WiFi público'], a: 1},
-    {q: '8. Un grupo de hackers inundó el servidor del banco durante 3 horas con millones de solicitudes falsas, impidiendo que los clientes realizaran transacciones. ¿Qué tipo de ataque fue?', o: ['Phishing','Ransomware','Ataque de denegación de servicio (DDoS)','Ingeniería social'], a: 2},
-    {q: '9. Valentina instaló una aplicación de mensajería "mejorada" que prometía funciones exclusivas. Resultó ser un troyano que robó todas sus contraseñas de redes sociales y las envió a un servidor en el exterior. ¿Qué delito se cometió contra Valentina?', o: ['Ciberacoso','Uso de software malicioso (troyano)','Hurto por medios informáticos','Suplantación web'], a: 1},
-    {q: '10. Sebastián, de 14 años, creó una página web que imitaba perfectamente la de una tienda de ropa popular. Los clientes que compraban ahí nunca recibieron sus productos y perdieron su dinero. ¿Qué delito está cometiendo Sebastián?', o: ['Daño informático','Suplantación de sitios web para capturar datos y dinero','Acceso abusivo','Ransomware'], a: 1},
-    {q: '11. La mamá de Andrés le contó que alguien abrió una tarjeta de crédito a nombre de ella usando sus datos personales, sin que ella lo supiera. ¿Qué delito informático se configura?', o: ['Robo de identidad digital','Phishing','Malware','Ataque DDoS'], a: 0},
-    {q: '12. Un ex empleado de una empresa de tecnología, aún con acceso al sistema, borró archivos importantes de la base de datos antes de irse. ¿Qué delito cometió según el Art. 269D del Código Penal?', o: ['Acceso abusivo a sistema informático','Daño informático','Interceptación de datos','Transferencia no consentida'], a: 1},
-    {q: '13. Camila recibió una llamada telefónica de alguien que se hizo pasar por un técnico de su proveedor de internet. Le pidió la contraseña del WiFi y datos de su tarjeta de crédito. ¿Qué técnica criminal se utilizó?', o: ['Phishing telefónico (Vishing)','Ransomware','Spyware','Keylogger'], a: 0},
-    {q: '14. Un delincuente instaló un programa en una empresa que grababa todo lo que escribían los empleados en sus teclados, capturando contraseñas y datos bancarios. ¿Qué tipo de software malicioso utilizó?', o: ['Adware','Ransomware','Keylogger (tipo spyware)','Virus'], a: 2},
-    {q: '15. La Superintendencia de Industria y Comercio (SIC) multó a una empresa por vender bases de datos de sus clientes a terceros sin autorización. ¿Qué delito informático comete la empresa?', o: ['Acceso abusivo','Hurto por medios informáticos','Violación de datos personales','Suplantación web'], a: 2},
-    {q: '16. Mateo recibió un correo de su "mejor amigo" pidiéndole dinero urgente porque tuvo un accidente. El correo había sido hackeado. Si Mateo hubiera transferido el dinero, ¿qué delito se habría cometido además del acceso abusivo?', o: ['Ciberacoso','Fraude financiero por medios informáticos','Ransomware','Daño informático'], a: 1},
-    {q: '17. Una ciberbanda creó una red de computadoras "zombis" controladas remotamente para atacar el sitio web de un candidato político durante las elecciones. ¿Qué concepto describe esta red de dispositivos comprometidos?', o: ['Servidor proxy','Botnet (red de robots)','Red VPN','Firewall'], a: 1},
-    {q: '18. Daniela descubrió que alguien instaló un software en su celular que grababa sus conversaciones de WhatsApp y las enviaba a un tercero. Según la legislación colombiana, ¿qué delito se configura?', o: ['Daño informático','Interceptación de datos informáticos','Acceso abusivo','Suplantación web'], a: 1},
-    {q: '19. Un grupo de adolescentes hackeó las cámaras de seguridad de una empresa para obtener información confidencial y venderla a la competencia. ¿Qué delito comete quien obtiene información política, económica o industrial de forma encubierta?', o: ['Phishing','Ciberespionaje','Ransomware','Ingeniería social'], a: 1},
-    {q: '20. El Banco Nacional informó a sus clientes que no deben hacer clic en enlaces de correos que soliciten "actualizar datos bancarios" sin verificar primero la URL oficial. ¿Por qué es importante verificar la URL?', o: ['Porque puede ser una suplantación de sitio web (phishing)','Porque puede ser un virus','Porque puede ser spam','Porque puede ser un anuncio'], a: 0},
-    {q: '21. Fernando, de 12 años, creó un perfil falso de una compañera en Instagram con fotos sacadas de su perfil real y publicó comentarios ofensivos. ¿Qué tipos de delitos se están configurando simultáneamente?', o: ['Solo daño informático','Violación de datos personales y ciberacoso','Solo phishing','Solo acceso abusivo'], a: 1},
-    {q: '22. Una empresa recibió un mensaje de un grupo criminal que decía: "Tenemos acceso a su base de datos de clientes. Si no pagan 10.000.000 de pesos, publicaremos toda la información". ¿Qué delito se configura además de la violación de datos?', o: ['Extorsión informática','Phishing','Ransomware','Daño informático'], a: 0},
-    {q: '23. Camila intentó iniciar sesión en su correo pero la contraseña no funcionó. Al recuperar la cuenta, encontró que el atacante cambió la contraseña y activó la verificación en dos pasos con su número. Según la Ley 1273, ¿qué delito se configura?', o: ['Daño informático','Uso de software malicioso','Acceso abusivo a sistema informático','Interceptación de datos'], a: 2},
-    {q: '24. Un programa gratuito que-descargó Sofía mostraba ventanas emergentes con publicidad constantemente y ralentizaba el computador, además de recopilar sus hábitos de navegación. ¿Qué tipo de software maligno combina estas características?', o: ['Ransomware y keylogger','Adware malicioso y spyware','Virus y troyano','Worm y rootkit'], a: 1},
-    {q: '25. Según la legislación colombiana, si un delito informático se comete contra menores de edad o con fines terroristas, la pena se incrementa. ¿Cuál es la pena máxima que puede alcanzar un delito informático con estas agravantes?', o: ['8 años de prisión','10 años de prisión','12 años de prisión','15 años de prisión'], a: 2}
+const allQuestions = [
+    {q: 'Maria recibe un mensaje de texto: "Banco Popular: Tu cuenta ha sido bloqueada. Ingresa a este enlace para activarla: www.banco-popular-servicios.com". Al hacer clic, le piden numero de cedula y clave. ¿Qué delito informático se está cometiendo?', o: ['Ransomware','Suplantación de sitio web (Phishing)','Daño informático','Interceptación de datos'], a: 1},
+    {q: 'Carlos, de 13 años, descarga un juego "gratis" de internet. Dos días después, su computador funciona lento, aparecen ventanas emergentes y su cámara se enciende sola. ¿Qué software malicioso instaló?', o: ['Antivirus','Firewall','Spyware','Backup'], a: 2},
+    {q: 'Una empresa recibió un correo que parecía de su proveedor pidiendo actualizar datos bancarios. El empleado respondió y transferieron $5.000.000 a una cuenta falsa. Identifica el delito:', o: ['Acceso abusivo a sistema informático','Ingeniería social para obtener transferencia fraudulenta','Daño informático','Ciberacoso'], a: 1},
+    {q: 'Andrea publicó fotos íntimas de su exnovia en redes sociales sin su consentimiento. Además de los delitos contra la vida privada, ¿qué delito informático se configura?', o: ['Phishing','Violación de datos personales','Ransomware','Ataque DDoS'], a: 1},
+    {q: 'Un grupo de estudiantes ingresó al sistema académico de su colegio sin permiso y cambió las notas. ¿Qué delito cometieron según la Ley 1273 de 2009?', o: ['Suplantación de identidad','Uso de software malicioso','Acceso abusivo a sistema informático','Interceptación de datos'], a: 2},
+    {q: 'Laura recibió un correo con un archivo adjunto "Factura pendiente.pdf". Al abrirlo, todos sus archivos se cifraron y un mensaje pide 500 dólares en Bitcoin. ¿Con qué ataque fue víctima?', o: ['Phishing','Malware tipo Troyano','Ransomware','Spyware'], a: 2},
+    {q: 'Diego conectó su USB con información confidencial a una computadora pública en un café internet. Un día después, la empresa fue hackeada. ¿Qué error de seguridad cometió?', o: ['Usar contraseña débil','Conectar dispositivos con información sensible en equipos públicos','No tener antivirus','Usar WiFi público'], a: 1},
+    {q: 'Un grupo de hackers inundó el servidor del banco con millones de solicitudes falsas durante 3 horas, impidiendo transacciones. ¿Qué tipo de ataque fue?', o: ['Phishing','Ransomware','Ataque de denegación de servicio (DDoS)','Ingeniería social'], a: 2},
+    {q: 'Valentina instaló una app de mensajería "mejorada". Resultó ser un troyano que robó sus contraseñas de redes sociales. ¿Qué delito se cometió?', o: ['Ciberacoso','Uso de software malicioso (troyano)','Hurto por medios informáticos','Suplantación web'], a: 1},
+    {q: 'Sebastián creó una página web que imitaba una tienda de ropa popular. Los clientes pagaron pero nunca recibieron sus productos. ¿Qué delito comete?', o: ['Daño informático','Suplantación de sitios web para capturar datos y dinero','Acceso abusivo','Ransomware'], a: 1},
+    {q: 'Alguien abrió una tarjeta de crédito a nombre de la mamá de Andrés usando sus datos personales sin su autorización. ¿Qué delito informático se configura?', o: ['Robo de identidad digital','Phishing','Malware','Ataque DDoS'], a: 0},
+    {q: 'Un ex empleado con acceso al sistema borró archivos importantes de la base de datos antes de irse. ¿Qué delito cometió según el Art. 269D?', o: ['Acceso abusivo a sistema informático','Daño informático','Interceptación de datos','Transferencia no consentida'], a: 1},
+    {q: 'Camila recibió una llamada de alguien que se hizo pasar por técnico de internet y le pidió su contraseña y datos de tarjeta. ¿Qué técnica criminal se utilizó?', o: ['Phishing telefónico (Vishing)','Ransomware','Spyware','Keylogger'], a: 0},
+    {q: 'Un delincuente instaló un programa que grababa todo lo que escribían los empleados en sus teclados, capturando contraseñas. ¿Qué software utilizó?', o: ['Adware','Ransomware','Keylogger (tipo spyware)','Virus'], a: 2},
+    {q: 'La SIC multó a una empresa por vender bases de datos de sus clientes a terceros sin autorización. ¿Qué delito comete la empresa?', o: ['Acceso abusivo','Hurto por medios informáticos','Violación de datos personales','Suplantación web'], a: 2},
+    {q: 'Mateo recibió un correo de su "mejor amigo" pidiendo dinero urgente. El correo había sido hackeado. ¿Qué delito se habría cometido si transfería el dinero?', o: ['Ciberacoso','Fraude financiero por medios informáticos','Ransomware','Daño informático'], a: 1},
+    {q: 'Una ciberbanda creó una red de computadoras "zombis" para atacar el sitio web de un candidato político. ¿Qué describe esta red de dispositivos?', o: ['Servidor proxy','Botnet (red de robots)','Red VPN','Firewall'], a: 1},
+    {q: 'Alguien instaló un software en el celular de Daniela que grababa sus conversaciones de WhatsApp y las enviaba a un tercero. ¿Qué delito se configura?', o: ['Daño informático','Interceptación de datos informáticos','Acceso abusivo','Suplantación web'], a: 1},
+    {q: 'Un grupo hackeó las cámaras de seguridad de una empresa para obtener información y venderla a la competencia. ¿Qué delito comete quien obtiene información de forma encubierta?', o: ['Phishing','Ciberespionaje','Ransomware','Ingeniería social'], a: 1},
+    {q: 'El Banco Nacional advierte no hacer clic en enlaces de correos que pidan "actualizar datos bancarios" sin verificar la URL. ¿Por qué es importante verificar?', o: ['Porque puede ser suplantación de sitio web (phishing)','Porque puede ser un virus','Porque puede ser spam','Porque puede ser un anuncio'], a: 0},
+    {q: 'Fernando creó un perfil falso de una compañera en Instagram con sus fotos y publicó comentarios ofensivos. ¿Qué delitos se configuran?', o: ['Solo daño informático','Violación de datos personales y ciberacoso','Solo phishing','Solo acceso abusivo'], a: 1},
+    {q: 'Una empresa recibió un mensaje: "Tenemos acceso a su base de datos. Si no pagan 10.000.000, publicaremos toda la información". ¿Qué delito se configura?', o: ['Extorsión informática','Phishing','Ransomware','Daño informático'], a: 0},
+    {q: 'Camila intentó iniciar sesión pero su contraseña no funcionó. El atacante cambió la contraseña y activó la verificación en dos pasos con su número. ¿Qué delito se configura?', o: ['Daño informático','Uso de software malicioso','Acceso abusivo a sistema informático','Interceptación de datos'], a: 2},
+    {q: 'Un programa gratuito mostraba publicidad intrusiva y ralentizaba el computador, además de recopilar hábitos de navegación. ¿Qué software maligno combina esto?', o: ['Ransomware y keylogger','Adware malicioso y spyware','Virus y troyano','Worm y rootkit'], a: 1},
+    {q: 'Según la legislación colombiana, si un delito informático se comete contra menores o con fines terroristas, la pena se incrementa. ¿Cuál es la pena máxima?', o: ['8 años de prisión','10 años de prisión','12 años de prisión','15 años de prisión'], a: 2},
+    {q: 'Pedro descargó una "pantalla de planetas" que en realidad era un virus. Su computador empezó a mostrar fotos personales y a grabar por la cámara. ¿Qué tipo de malware es?', o: ['Adware','Ransomware','Spyware con keylogger','Worm'], a: 2},
+    {q: 'Una adolescente creó una cuenta falsa de Instagram haciéndose pasar por su profesor y publicó mensajes ofensivos. ¿Qué delito comete?', o: ['Suplantación de identidad digital','Daño informático','Ransomware','Hurto informático'], a: 0},
+    {q: 'Un hacker accedió a la red WiFi del colegio y capturó las contraseñas de los estudiantes mientras navegaban. ¿Qué técnica utilizó?', o: ['Phishing','Sniffing (interceptación de datos)','Ransomware','DDoS'], a: 1},
+    {q: 'Un estudiante borró intencionalmente el trabajo de graduación de su compañero del servidor del colegio. ¿Qué delito comete?', o: ['Acceso abusivo','Daño informático','Hurto informático','Suplantación web'], a: 1},
+    {q: 'Alguien creó una copia exacta del sitio web del banco para robar credenciales. Los usuarios que ingresaban perdían su dinero. ¿Qué delito es este?', o: ['Pharming (suplantación de DNS)','Ransomware','Spyware','Malware'], a: 0},
+    {q: 'Una empresa recibió un ataque que cifró toda su base de datos y exigían 20.000.000 de pesos en criptomonedas. ¿Qué delito sufrieron?', o: ['Phishing','Daño informático con ransomware','Hurto informático','Ciberacoso'], a: 1},
+    {q: 'Lucía descubrió que alguien usó su cédula para crear cuentas en redes sociales y estafar a sus contactos pidiendo dinero. ¿Qué delito se configura?', o: ['Robo de identidad digital','Phishing','Suplantación web','Daño informático'], a: 0},
+    {q: 'Un programador autorizado revisó las vulnerabilidades del sistema de una empresa con su permiso. ¿Cómo se llama esta práctica?', o: ['Hacking criminal','Ingeniería social','Auditoría de seguridad (hacking ético)','Ciberespionaje'], a: 2},
+    {q: 'Un virus se propagó por la red del colegio sin que nadie lo descargara, afectando todas las computadoras. ¿Qué tipo de malware se auto-replica?', o: ['Troyano','Worm (gusano)','Spyware','Adware'], a: 1},
+    {q: 'Alguien instaló un dispositivo en el cajero automático del banco que leía los datos de las tarjetas. ¿Qué delito se configura?', o: ['Skimming (interceptación de datos)','Phishing','Ransomware','Daño informático'], a: 0},
+    {q: 'Un grupo de adolescentes creó un grupo de WhatsApp para compartir fotos íntimas de compañeras sin su consentimiento. ¿Qué delito cometen?', o: ['Ciberacoso y violación de datos personales','Phishing','Ransomware','Acceso abusivo'], a: 0},
+    {q: 'Una tienda en línea hackeada reveló los datos de tarjetas de crédito de 50.000 clientes. ¿Qué entidad investiga este delito?', o: ['El Senado','El Centro Cibernético Policial','La Superintendencia de Comercio','El Ministerio de Educación'], a: 1},
+    {q: 'Juan recibió un mensaje de WhatsApp de un número desconocido con un enlace que decía "Ganaste un iPhone". Al hacer clic, le robaron toda la información. ¿Qué tipo de ataque fue?', o: ['Ransomware','Phishing por mensaje (Smishing)','Spyware','DDoS'], a: 1},
+    {q: 'Una persona instaló software espía en el celular de su exnovia para vigilar sus conversaciones y ubicación. ¿Qué delito comete?', o: ['Ciberacoso','Interceptación de datos informáticos','Daño informático','Robo de identidad'], a: 1},
+    {q: 'Un hacker accedió al sistema de una clinica y amenazó con publicar historias clinicas de pacientes si no le pagaban. ¿Qué delito comete?', o: ['Extorsión informática y violación de datos personales','Phishing','Ransomware','Daño informático'], a: 0},
+    {q: 'Una estudiante descargó una app que resultó ser un keylogger. Todas sus contraseñas fueron robadas. ¿Qué hacía este software?', o: ['Cifraba archivos y pedía dinero','Grababa todo lo que se escribía en el teclado','Mostraba publicidad','Bloqueaba el computador'], a: 1},
+    {q: 'El director del colegio recibió un correo parecido del ministerio pidiendo datos bancarios para un "programa de becas". Era falso. ¿Qué delito intentaron cometer?', o: ['Suplantación de identidad institucional (Phishing)','Ransomware','Daño informático','Ciberacoso'], a: 0}
 ];
 
 let currentAttempt = 0;
 let bestScore = 0;
 let quizAnswered = false;
+let activeQuestions = [];
+
+function shuffleArray(arr) {
+    const shuffled = [...arr];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
+function selectQuizQuestions() {
+    const shuffled = shuffleArray(allQuestions);
+    activeQuestions = shuffled.slice(0, 25);
+    activeQuestions = activeQuestions.map(q => {
+        const correctAnswer = q.o[q.a];
+        const shuffledOptions = shuffleArray(q.o);
+        const newCorrectIndex = shuffledOptions.indexOf(correctAnswer);
+        return { q: q.q, o: shuffledOptions, a: newCorrectIndex };
+    });
+}
 
 function renderQuiz() {
+    selectQuizQuestions();
     const container = document.getElementById('quiz-container');
-    container.innerHTML = quizQuestions.map((q, i) => {
-        return '<div class="question-card" id="qcard-'+i+'"><h4>'+q.q+'</h4><div class="options">'+
+    container.innerHTML = activeQuestions.map((q, i) => {
+        return '<div class="question-card" id="qcard-'+i+'"><h4>'+(i+1)+'. '+q.q+'</h4><div class="options">'+
             q.o.map((opt, j) => '<label id="ql-'+i+'-'+j+'" onclick="selectOption('+i+','+j+')"><input type="radio" name="q'+i+'" value="'+j+'">'+opt+'</label>').join('')+
             '</div></div>';
     }).join('');
@@ -601,7 +640,7 @@ function renderQuiz() {
 
 function selectOption(qIdx, oIdx) {
     if (quizAnswered) return;
-    quizQuestions[qIdx].o.forEach((_, j) => {
+    activeQuestions[qIdx].o.forEach((_, j) => {
         document.getElementById('ql-'+qIdx+'-'+j).classList.remove('selected');
     });
     document.getElementById('ql-'+qIdx+'-'+oIdx).classList.add('selected');
@@ -612,7 +651,7 @@ function submitQuiz() {
     quizAnswered = true;
     let correct = 0;
 
-    quizQuestions.forEach((q, i) => {
+    activeQuestions.forEach((q, i) => {
         const selected = document.querySelector('input[name="q'+i+'"]:checked');
         const userAnswer = selected ? parseInt(selected.value) : -1;
         q.o.forEach((_, j) => {
@@ -623,12 +662,12 @@ function submitQuiz() {
         });
     });
 
-    correct = quizQuestions.filter((q, i) => {
+    correct = activeQuestions.filter((q, i) => {
         const selected = document.querySelector('input[name="q'+i+'"]:checked');
         return selected && parseInt(selected.value) === q.a;
     }).length;
 
-    const score = (correct / quizQuestions.length * 10).toFixed(1);
+    const score = (correct / activeQuestions.length * 10).toFixed(1);
     if (parseFloat(score) > bestScore) bestScore = parseFloat(score);
     currentAttempt++;
 
@@ -645,9 +684,9 @@ function submitQuiz() {
     result.style.display = 'block';
     result.innerHTML = '<div class="final-score">' +
         '<h2>Tu Calificacion: ' + score + ' / 10</h2>' +
-        '<p style="font-size:1.3em; margin:10px 0;">Respuestas correctas: ' + correct + ' de ' + quizQuestions.length + '</p>' +
+        '<p style="font-size:1.3em; margin:10px 0;">Respuestas correctas: ' + correct + ' de ' + activeQuestions.length + '</p>' +
         '<p style="font-size:1.1em; background:#ffffff22; padding:10px; border-radius:8px; display:inline-block;">' + emoji + '</p>' +
-        (currentAttempt < 3 ? '<p style="margin-top:15px; opacity:0.8;">Te quedan ' + (3-currentAttempt) + ' intento(s) mas</p>' : '<p style="margin-top:15px; opacity:0.8;">Has agotado tus 3 intentos. Tu calificacion final es: <strong>' + bestScore + '</strong></p>') +
+        (currentAttempt < 3 ? '<p style="margin-top:15px; opacity:0.8;">Te quedan ' + (3-currentAttempt) + ' intento(s) mas. Las preguntas seran diferentes.</p>' : '<p style="margin-top:15px; opacity:0.8;">Has agotado tus 3 intentos. Tu calificacion final es: <strong>' + bestScore + '</strong></p>') +
         '</div>';
 
     document.getElementById('calificar-btn').style.display = 'none';
@@ -658,13 +697,7 @@ function submitQuiz() {
 
 function resetQuiz() {
     quizAnswered = false;
-    quizQuestions.forEach((q, i) => {
-        q.o.forEach((_, j) => {
-            const label = document.getElementById('ql-'+i+'-'+j);
-            label.classList.remove('selected','correct','incorrect');
-            label.querySelector('input').checked = false;
-        });
-    });
+    renderQuiz();
     document.getElementById('quiz-result').style.display = 'none';
     document.getElementById('retry-btn').style.display = 'none';
     document.getElementById('calificar-btn').style.display = 'inline-block';
