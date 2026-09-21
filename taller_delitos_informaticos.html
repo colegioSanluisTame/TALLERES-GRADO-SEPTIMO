@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller 2 - Delitos Informáticos | Colegio San Luis</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f4f8; color: #333; }
+        .header { background: linear-gradient(135deg, #1a237e, #283593); color: white; padding: 20px; text-align: center; }
+        .header h1 { font-size: 1.8em; margin-bottom: 5px; }
+        .header p { opacity: 0.9; font-size: 0.95em; }
+        .tabs { display: flex; background: #1a237e; }
+        .tab-btn { flex: 1; padding: 14px; border: none; background: transparent; color: #ffffffaa; font-size: 1em; cursor: pointer; transition: 0.3s; font-weight: 600; }
+        .tab-btn.active { background: #fff; color: #1a237e; border-radius: 10px 10px 0 0; }
+        .tab-btn:hover:not(.active) { background: #ffffff22; }
+        .tab-content { display: none; padding: 25px; max-width: 1100px; margin: 0 auto; }
+        .tab-content.active { display: block; }
+        .card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .card h2 { color: #1a237e; margin-bottom: 12px; font-size: 1.3em; border-bottom: 2px solid #e8eaf6; padding-bottom: 8px; }
+        .card h3 { color: #283593; margin: 12px 0 6px; font-size: 1.1em; }
+        .card p, .card li { line-height: 1.7; font-size: 0.95em; }
+        .card ul { padding-left: 20px; margin: 8px 0; }
+        .card li { margin-bottom: 4px; }
+        .highlight { background: #fff3e0; padding: 12px 16px; border-left: 4px solid #ff9800; border-radius: 0 8px 8px 0; margin: 12px 0; }
+        .info-box { background: #e8f5e9; padding: 12px 16px; border-left: 4px solid #4caf50; border-radius: 0 8px 8px 0; margin: 12px 0; }
+        .danger-box { background: #ffebee; padding: 12px 16px; border-left: 4px solid #f44336; border-radius: 0 8px 8px 0; margin: 12px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        th, td { border: 1px solid #ddd; padding: 10px 12px; text-align: left; font-size: 0.9em; }
+        th { background: #1a237e; color: white; }
+        tr:nth-child(even) { background: #f5f5f5; }
+
+        /* Sopa de letras */
+        .word-search-grid { display: inline-grid; gap: 2px; margin: 15px 0; }
+        .word-search-grid span { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: #e8eaf6; border-radius: 4px; font-weight: bold; font-size: 0.85em; cursor: pointer; transition: 0.2s; user-select: none; }
+        .word-search-grid span.selected { background: #1a237e; color: white; }
+        .word-search-grid span.found { background: #4caf50; color: white; }
+        .words-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+        .words-list span { padding: 4px 12px; background: #e8eaf6; border-radius: 15px; font-size: 0.85em; }
+        .words-list span.found { background: #4caf50; color: white; text-decoration: line-through; }
+
+        /* Completar */
+        .fill-exercise { margin: 12px 0; padding: 12px; background: #f5f5f5; border-radius: 8px; }
+        .fill-exercise input { border: none; border-bottom: 2px solid #1a237e; background: transparent; width: 200px; padding: 4px; font-size: 0.95em; text-align: center; outline: none; }
+        .fill-exercise input.correct { border-bottom-color: #4caf50; background: #e8f5e9; }
+        .fill-exercise input.incorrect { border-bottom-color: #f44336; background: #ffebee; }
+
+        /* Relacionar */
+        .match-container { display: flex; gap: 30px; justify-content: center; margin: 15px 0; flex-wrap: wrap; }
+        .match-col { display: flex; flex-direction: column; gap: 10px; }
+        .match-item { padding: 10px 16px; background: #e8eaf6; border-radius: 8px; cursor: pointer; transition: 0.2s; border: 2px solid transparent; font-size: 0.9em; text-align: center; min-width: 250px; }
+        .match-item:hover { background: #c5cae9; }
+        .match-item.selected { border-color: #1a237e; background: #c5cae9; }
+        .match-item.correct { border-color: #4caf50; background: #c8e6c9; }
+        .match-item.incorrect { border-color: #f44336; background: #ffcdd2; }
+
+        .btn { padding: 10px 24px; border: none; border-radius: 8px; cursor: pointer; font-size: 0.95em; font-weight: 600; transition: 0.3s; margin: 5px; }
+        .btn-primary { background: #1a237e; color: white; }
+        .btn-primary:hover { background: #283593; }
+        .btn-success { background: #4caf50; color: white; }
+        .btn-success:hover { background: #388e3c; }
+        .btn-danger { background: #f44336; color: white; }
+        .btn-danger:hover { background: #d32f2f; }
+        .btn-warning { background: #ff9800; color: white; }
+        .btn-warning:hover { background: #f57c00; }
+
+        .score-display { text-align: center; padding: 15px; background: #e8eaf6; border-radius: 10px; margin: 15px 0; font-size: 1.1em; }
+
+        /* Evaluación */
+        .question-card { background: white; border-radius: 10px; padding: 18px; margin-bottom: 15px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); border-left: 4px solid #1a237e; }
+        .question-card h4 { color: #1a237e; margin-bottom: 10px; }
+        .options label { display: block; padding: 8px 12px; margin: 4px 0; border-radius: 6px; cursor: pointer; transition: 0.2s; border: 1px solid #e0e0e0; }
+        .options label:hover { background: #e8eaf6; }
+        .options input[type="radio"] { margin-right: 10px; }
+        .options label.selected { background: #c5cae9; border-color: #1a237e; }
+        .options label.correct { background: #c8e6c9; border-color: #4caf50; }
+        .options label.incorrect { background: #ffcdd2; border-color: #f44336; }
+
+        .attempt-info { text-align: center; padding: 10px; background: #fff3e0; border-radius: 8px; margin-bottom: 15px; font-weight: 600; }
+
+        .final-score { text-align: center; padding: 30px; background: linear-gradient(135deg, #1a237e, #283593); color: white; border-radius: 15px; margin: 20px 0; }
+        .final-score h2 { font-size: 2em; margin-bottom: 10px; }
+        .final-score p { font-size: 1.2em; opacity: 0.9; }
+
+        @media (max-width: 768px) {
+            .tab-btn { font-size: 0.8em; padding: 10px 5px; }
+            .match-container { flex-direction: column; align-items: center; }
+            .match-item { min-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Taller 2: Delitos Informaticos</h1>
+    <p>Colegio San Luis | Grado Septimo | Edades: 12 - 14 anos</p>
+</div>
+
+<div class="tabs">
+    <button class="tab-btn active" onclick="openTab('guia')">Guia del Tema</button>
+    <button class="tab-btn" onclick="openTab('taller')">Taller Practico</button>
+    <button class="tab-btn" onclick="openTab('evaluacion')">Evaluacion (25 preguntas)</button>
+</div>
+
+<!-- ==================== PESTANA 1: GUIA DEL TEMA ==================== -->
+<div id="guia" class="tab-content active">
+
+    <div class="card">
+        <h2>1. Que son los Delitos Informaticos?</h2>
+        <p>Los <strong>delitos informaticos</strong> (tambien llamados ciberdelitos) son todos aquellos actos delictivos que se cometen utilizando computadoras, celulares, tabletas, redes de internet u otros dispositivos electronicos.</p>
+        <div class="highlight">
+            <strong>Dato importante:</strong> En Colombia, los delitos informaticos estan tipificados en la <strong>Ley 1273 de 2009</strong>, que creo un bien juridico nuevo: la proteccion de la informacion y de los datos personales. Las penas van desde 4 hasta 12 anos de prision.
+        </div>
+        <p>Lo que distingue a estos delitos de otros es su <strong>elemento tecnologico</strong>: el criminal aprovecha vulnerabilidades tanto de las computadoras como de las personas (ingenieria social) para cometer el delito.</p>
+    </div>
+
+    <div class="card">
+        <h2>2. Principales Tipos de Delitos Informaticos en Colombia</h2>
+
+        <h3>2.1. Acceso Abusivo a un Sistema Informatico (Art. 269A)</h3>
+        <p>Se comete cuando alguien accede a una computadora, correo electronico, cuenta de redes sociales o cualquier sistema <strong>sin autorizacion</strong> o mas alla de la que tiene.</p>
+        <div class="danger-box">
+            <strong>Ejemplo:</strong> Hackear el correo electronico de un companero, entrar a la cuenta bancaria de alguien sin permiso, o usar credenciales vencidas de un ex empleado.
+        </div>
+        <p><strong>Pena:</strong> 4 a 8 anos de prision (hasta 12 con agravantes).</p>
+
+        <h3>2.2. Obstaculizacion Ilegitima de un Sistema Informatico (Art. 269B)</h3>
+        <p>Consiste en <strong>impedir o entorpecer</strong> el funcionamiento de un sistema informatico o red de telecomunicaciones.</p>
+        <div class="danger-box">
+            <strong>Ejemplo:</strong> Un ataque DDoS que tumba el servidor de una empresa, saturar intencionalmente una red para hacerla inoperable.
+        </div>
+
+        <h3>2.3. Interceptacion de Datos Informaticos (Art. 269C)</h3>
+        <p>Se presenta cuando alguien <strong>sin orden judicial</strong> intercepta datos en su origen, destino o dentro de un sistema informático.</p>
+        <div class="danger-box">
+            <strong>Ejemplo:</strong> Interceptar conversaciones de WhatsApp, instalar un keylogger para capturar lo que otro escribe.
+        </div>
+
+        <h3>2.4. Dano Informatico (Art. 269D)</h3>
+        <p>Se comete cuando alguien <strong>destruye, borra, deteriora o suprime</strong> datos informaticos o componentes de un sistema.</p>
+        <div class="danger-box">
+            <strong>Ejemplo:</strong> Borrar intencionalmente la base de datos de una empresa, el ransomware que cifra archivos.
+        </div>
+
+        <h3>2.5. Uso de Software Malicioso (Art. 269E)</h3>
+        <p>Se produce cuando alguien produce, trafica, distribuye o vende <strong>programas con efectos daninos</strong> como virus, troyanos o ransomware.</p>
+        <table>
+            <tr><th>Tipo</th><th>Que hace</th></tr>
+            <tr><td><strong>Virus</strong></td><td>Se replica y dania archivos o sistemas</td></tr>
+            <tr><td><strong>Troyano</strong></td><td>Se disfraza de programa legitimo para robar informacion</td></tr>
+            <tr><td><strong>Ransomware</strong></td><td>Cifra los archivos y exige rescate economico</td></tr>
+            <tr><td><strong>Spyware</strong></td><td>Espia la actividad del usuario sin que lo sepa</td></tr>
+        </table>
+
+        <h3>2.6. Violacion de Datos Personales (Art. 269F)</h3>
+        <p>Obtener, vender, divulgar o emplear <strong>datos personales</strong> de alguien sin autorizacion.</p>
+        <div class="danger-box">
+            <strong>Ejemplo:</strong> Vender bases de datos de clientes, publicar fotos intimas sin consentimiento, compartir datos medicos confidenciales.
+        </div>
+
+        <h3>2.7. Suplantacion de Sitios Web (Art. 269G)</h3>
+        <p>Diseñar paginas web falsas que <strong>imitan sitios legitimos</strong> (bancos, tiendas) para capturar datos personales.</p>
+        <div class="danger-box">
+            <strong>Ejemplo:</strong> Crear una pagina web falsa que imita la del banco para robar contrasenas (phishing).
+        </div>
+
+        <h3>2.8. Hurto por Medios Informaticos (Art. 269I)</h3>
+        <p>Eludir medidas de seguridad para <strong>apoderarse de bienes ajenos</strong> valiendose de la manipulacion de sistemas informaticos.</p>
+
+        <h3>2.9. Transferencia No Consentida de Activos (Art. 269J)</h3>
+        <p>Realizar <strong>transferencias bancarias no autorizadas</strong> valiendose de manipulacion informatica.</p>
+    </div>
+
+    <div class="card">
+        <h2>3. Principales Ciberdelitos en el Mundo</h2>
+        <p>Segun el Centro Nacional de Proteccion de Infraestructuras y Ciberseguridad, estos son los 12 ciberdelitos mas importantes a nivel mundial:</p>
+        <table>
+            <tr><th>#</th><th>Ciberdelito</th><th>Descripcion</th></tr>
+            <tr><td>1</td><td><strong>Phishing</strong></td><td>Obtener datos confidenciales haciendose pasar por entidades de confianza</td></tr>
+            <tr><td>2</td><td><strong>Ransomware</strong></td><td>Bloquear archivos y pedir rescate economico</td></tr>
+            <tr><td>3</td><td><strong>Ingenieria Social</strong></td><td>Manipular a las personas para obtener informacion</td></tr>
+            <tr><td>4</td><td><strong>Ataques DDoS</strong></td><td> hacer caer servicios online con trafico falso masivo</td></tr>
+            <tr><td>5</td><td><strong>Malware</strong></td><td>Software disenado para danar sistemas</td></tr>
+            <tr><td>6</td><td><strong>Fraude Financiero</strong></td><td>Obtener acceso a cuentas bancarias de forma fraudulenta</td></tr>
+            <tr><td>7</td><td><strong>Ciberespionaje</strong></td><td>Obtener informacion politica, militar o economica</td></tr>
+            <tr><td>8</td><td><strong>Ciberacoso</strong></td><td>Acosar, intimidar o humillar por medios digitales</td></tr>
+            <tr><td>9</td><td><strong>Robo de Identidad</strong></td><td>Suplantar a alguien para cometer fraudes</td></tr>
+            <tr><td>10</td><td><strong>Ataques a la cadena de suministro</strong></td><td>Comprometer la seguridad de proveedores</td></tr>
+            <tr><td>11</td><td><strong>Ataques a dispositivos IoT</strong></td><td>Explotar dispositivos inteligentes mal protegidos</td></tr>
+            <tr><td>12</td><td><strong>Secuestro de cuentas</strong></td><td>Tomar control de redes sociales para difundir malware</td></tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>4. Ley 1273 de 2009 - Marco Legal en Colombia</h2>
+        <p>Esta ley creo el <strong>Titulo VII BIS</strong> en el Codigo Penal colombiano, con dos capitulo:</p>
+        <table>
+            <tr><th>Capitulo</th><th>Nombre</th><th>Articulos</th></tr>
+            <tr><td>I</td><td>Atentados contra la confidencialidad, integridad y disponibilidad</td><td>Arts. 269A a 269H</td></tr>
+            <tr><td>II</td><td>Atentados informaticos y otras infracciones</td><td>Arts. 269I y 269J</td></tr>
+        </table>
+        <div class="info-box">
+            <strong>Dato clave:</strong> Las penas se agravan cuando el delito se comete sobre sistemas del Estado, con fines terroristas, aprovechando confianza, o cuando afecta a menores de edad. Las penas pueden llegar hasta <strong>12 anos de prision</strong>.
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>5. Estadisticas en Colombia</h2>
+        <p>Segun la Camara Colombiana de Informatica y Telecomunicaciones (CCIT):</p>
+        <ul>
+            <li>De enero a noviembre de 2021 se presentaron <strong>46,527 denuncias</strong> por delitos ciberneticos.</li>
+            <li>Esto representa un aumento del <strong>21%</strong> respecto a 2020.</li>
+            <li>Comparado con 2019, el aumento fue del <strong>107%</strong>.</li>
+            <li>El delito informatico es la tipologia criminal de <strong>mayor crecimiento</strong> en Colombia.</li>
+        </ul>
+        <div class="highlight">
+            Los delitos mas frecuentes en Colombia son: fraude con tarjetas de credito, phishing bancario, violacion de datos personales, ciberacoso y ransomware empresarial.
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>6. Como Protegerte</h2>
+        <div class="info-box">
+            <strong>Medidas de proteccion:</strong>
+            <ul>
+                <li>Usa <strong>contrasenas fuertes</strong> (minimo 12 caracteres con mayusculas, numeros y simbolos).</li>
+                <li>Activa la <strong>autenticacion de dos factores</strong> (2FA) en tus cuentas.</li>
+                <li>Mantén el <strong>software actualizado</strong>.</li>
+                <li><strong>No hagas clic</strong> en enlaces sospechosos.</li>
+                <li>Usa <strong>antivirus</strong> actualizado.</li>
+                <li>Haz <strong>copias de seguridad</strong> regulares.</li>
+                <li>Verifica siempre la <strong>URL del banco</strong> antes de ingresar datos.</li>
+                <li>No compartas <strong>informacion personal</strong> con desconocidos en linea.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>7. Como Denunciar un Delito Informatico en Colombia</h2>
+        <table>
+            <tr><th>Canal</th><th>Disponibilidad</th><th>Para que sirve</th></tr>
+            <tr><td>CAI Virtual de la Policia</td><td>24 horas en linea</td><td>Todos los delitos informaticos</td></tr>
+            <tr><td>Centro Cibernetico Policial</td><td>24 horas</td><td>Casos complejos</td></tr>
+            <tr><td>Linea 122 - Fiscalia</td><td>24 horas</td><td>Denuncia formal</td></tr>
+            <tr><td>URI de la Fiscalia</td><td>24 horas</td><td>Denuncia presencial</td></tr>
+            <tr><td>Superfinanciera</td><td>Horario habil</td><td>Fraudes bancarios</td></tr>
+        </table>
+        <div class="highlight">
+            <strong>Consejo:</strong> Conserva siempre las capturas de pantalla, correos electronicos, URLs y registros como evidencia antes de que desaparezcan.
+        </div>
+    </div>
+
+</div>
+
+<!-- ==================== PESTANA 2: TALLER PRACTICO ==================== -->
+<div id="taller" class="tab-content">
+
+    <!-- SOPA DE LETRAS -->
+    <div class="card">
+        <h2>Actividad 1: Sopa de Letras</h2>
+        <p>Encuentra las palabras ocultas en la sopa de letras. Haz clic en la primera letra y luego en la ultima letra de cada palabra.</p>
+        <p><em>Pista: Las palabras estan en horizontal (izquierda a derecha) o vertical (arriba a abajo).</em></p>
+
+        <div id="word-search-area"></div>
+        <div class="words-list" id="words-list"></div>
+        <p id="ws-score" style="text-align:center; font-weight:bold; margin-top:10px;"></p>
+    </div>
+
+    <!-- COMPLETAR -->
+    <div class="card">
+        <h2>Actividad 2: Complete la Informacion</h2>
+        <p>Complete cada oracion con la palabra correcta.</p>
+
+        <div class="fill-exercise">
+            <p>1. Los delitos informaticos estan tipificados en la Ley _________ de 2009.</p>
+            <input type="text" id="fill1" data-answer="1273" placeholder="Escriba el numero">
+        </div>
+        <div class="fill-exercise">
+            <p>2. El phishing es una tecnica fraudulenta que intenta obtener datos confidenciales haciendose pasar por entidades de __________.</p>
+            <input type="text" id="fill2" data-answer="confianza" placeholder="Escriba la palabra">
+        </div>
+        <div class="fill-exercise">
+            <p>3. El __________ es un tipo de software malicioso que cifra los archivos y exige un rescate economico.</p>
+            <input type="text" id="fill3" data-answer="ransomware" placeholder="Escriba el termino">
+        </div>
+        <div class="fill-exercise">
+            <p>4. El __________ informatico se comete cuando alguien destruye, borra o deteriora datos.</p>
+            <input type="text" id="fill4" data-answer="dano" placeholder="Escriba la palabra">
+        </div>
+        <div class="fill-exercise">
+            <p>5. La __________ de datos personales ocurre cuando alguien obtiene o divulga datos sin autorizacion.</p>
+            <input type="text" id="fill5" data-answer="violacion" placeholder="Escriba la palabra">
+        </div>
+        <div class="fill-exercise">
+            <p>6. Un __________ es un programa que se disfraza de legitimo para robar informacion.</p>
+            <input type="text" id="fill6" data-answer="troyano" placeholder="Escriba el tipo de software">
+        </div>
+        <div class="fill-exercise">
+            <p>7. El ciber____________ se refiere al uso de medios digitales para acosar o intimidar a alguien.</p>
+            <input type="text" id="fill7" data-answer="acoso" placeholder="Escriba la palabra">
+        </div>
+        <div class="fill-exercise">
+            <p>8. Las contrasenas seguras deben tener minimo __________ caracteres.</p>
+            <input type="text" id="fill8" data-answer="12" placeholder="Escriba el numero">
+        </div>
+        <div class="fill-exercise">
+            <p>9. La __________ de dos factores (2FA) agrega una capa extra de seguridad a tus cuentas.</p>
+            <input type="text" id="fill9" data-answer="autenticacion" placeholder="Escriba la palabra">
+        </div>
+        <div class="fill-exercise">
+            <p>10. El __________ es el ataque que inunda un servicio online para hacerlo caer.</p>
+            <input type="text" id="fill10" data-answer="ddos" placeholder="Escriba la sigla">
+        </div>
+        <div style="text-align:center; margin-top:15px;">
+            <button class="btn btn-success" onclick="checkFills()">Verificar Respuestas</button>
+            <span id="fill-score" style="margin-left:15px; font-weight:bold;"></span>
+        </div>
+    </div>
+
+    <!-- RELACIONAR -->
+    <div class="card">
+        <h2>Actividad 3: Relaciona el Delito con la Situacion</h2>
+        <p>Haz clic en un delito (izquierda) y luego en la situacion que le corresponde (derecha).</p>
+
+        <div id="match-area">
+            <div class="match-container">
+                <div class="match-col" id="match-left"></div>
+                <div class="match-col" id="match-right"></div>
+            </div>
+        </div>
+        <div style="text-align:center; margin-top:15px;">
+            <button class="btn btn-success" onclick="checkMatches()">Verificar Relaciones</button>
+            <button class="btn btn-warning" onclick="resetMatches()">Reiniciar</button>
+            <p id="match-score" style="margin-top:10px; font-weight:bold;"></p>
+        </div>
+    </div>
+
+</div>
+
+<!-- ==================== PESTANA 3: EVALUACION ==================== -->
+<div id="evaluacion" class="tab-content">
+    <div class="attempt-info">
+        Intento: <span id="attempt-num">1</span> de 3 | Puntaje acumulado mejor intento: <span id="best-score">-</span>/10
+    </div>
+
+    <div id="quiz-container"></div>
+
+    <div style="text-align:center; margin: 20px 0;">
+        <button class="btn btn-primary" onclick="submitQuiz()">Enviar Respuestas</button>
+        <button class="btn btn-warning" onclick="resetQuiz()" style="display:none;" id="retry-btn">Siguiente Intento</button>
+    </div>
+
+    <div id="quiz-result" style="display:none;"></div>
+</div>
+
+<script>
+// ==================== NAVEGACION DE PESTANAS ====================
+function openTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    event.target.classList.add('active');
+}
+
+// ==================== SOPA DE LETRAS ====================
+const wsWords = ['PHISHING','MALWARE','VIRUS','FRAUDE','HACKER','DATOS','CORREO','CLAVE','RED','LEY'];
+const wsSize = 12;
+let wsGrid = [];
+let wsSelected = [];
+let wsFound = [];
+let wsStartCell = null;
+
+function initWordSearch() {
+    wsGrid = Array.from({length: wsSize}, () => Array(wsSize).fill(''));
+    wsFound = [];
+    wsSelected = [];
+
+    const directions = [[0,1],[1,0],[1,1]];
+    wsWords.forEach(word => {
+        let placed = false;
+        let attempts = 0;
+        while (!placed && attempts < 100) {
+            const dir = directions[Math.floor(Math.random() * directions.length)];
+            const r = Math.floor(Math.random() * wsSize);
+            const c = Math.floor(Math.random() * wsSize);
+            let fits = true;
+            for (let i = 0; i < word.length; i++) {
+                const nr = r + dir[0]*i;
+                const nc = c + dir[1]*i;
+                if (nr >= wsSize || nc >= wsSize || (wsGrid[nr][nc] !== '' && wsGrid[nr][nc] !== word[i])) {
+                    fits = false;
+                    break;
+                }
+            }
+            if (fits) {
+                for (let i = 0; i < word.length; i++) {
+                    wsGrid[r + dir[0]*i][c + dir[1]*i] = word[i];
+                }
+                placed = true;
+            }
+            attempts++;
+        }
+    });
+
+    for (let r = 0; r < wsSize; r++)
+        for (let c = 0; c < wsSize; c++)
+            if (wsGrid[r][c] === '') wsGrid[r][c] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[Math.floor(Math.random()*26)];
+
+    renderWordSearch();
+}
+
+function renderWordSearch() {
+    const area = document.getElementById('word-search-area');
+    const list = document.getElementById('words-list');
+    let html = '<div class="word-search-grid" style="grid-template-columns: repeat('+wsSize+', 32px);">';
+    for (let r = 0; r < wsSize; r++)
+        for (let c = 0; c < wsSize; c++)
+            html += '<span id="ws-'+r+'-'+c+'" onclick="selectWSCell('+r+','+c+')">'+wsGrid[r][c]+'</span>';
+    html += '</div>';
+    area.innerHTML = html;
+
+    list.innerHTML = wsWords.map(w => '<span id="wl-'+w+'">'+w+'</span>').join('');
+}
+
+function selectWSCell(r, c) {
+    const cell = document.getElementById('ws-'+r+'-'+c);
+    if (!wsStartCell) {
+        wsStartCell = {r, c};
+        cell.classList.add('selected');
+    } else {
+        const dr = r - wsStartCell.r;
+        const dc = c - wsStartCell.c;
+        if ((dr === 0 || dc === 0 || Math.abs(dr) === Math.abs(dc)) &&
+            (Math.abs(dr) === wsGrid.length || Math.abs(dc) === wsGrid.length || Math.abs(dr) === Math.abs(dc))) {
+            const stepR = dr === 0 ? 0 : dr / Math.abs(dr);
+            const stepC = dc === 0 ? 0 : dc / Math.abs(dc);
+            const len = Math.max(Math.abs(dr), Math.abs(dc)) + 1;
+            let word = '';
+            for (let i = 0; i < len; i++) word += wsGrid[wsStartCell.r + stepR*i][wsStartCell.c + stepC*i];
+
+            if (wsWords.includes(word) && !wsFound.includes(word)) {
+                wsFound.push(word);
+                for (let i = 0; i < len; i++) {
+                    document.getElementById('ws-'+(wsStartCell.r+stepR*i)+'-'+(wsStartCell.c+stepC*i)).classList.add('found');
+                }
+                document.getElementById('wl-'+word).classList.add('found');
+            }
+        }
+        document.querySelectorAll('.word-search-grid span.selected').forEach(s => s.classList.remove('selected'));
+        wsStartCell = null;
+    }
+    document.getElementById('ws-score').textContent = 'Encontradas: ' + wsFound.length + '/' + wsWords.length;
+}
+
+// ==================== COMPLETAR ====================
+function checkFills() {
+    let correct = 0;
+    for (let i = 1; i <= 10; i++) {
+        const input = document.getElementById('fill'+i);
+        const answer = input.dataset.answer.toLowerCase().trim();
+        const user = input.value.toLowerCase().trim();
+        if (user === answer) {
+            input.classList.remove('incorrect');
+            input.classList.add('correct');
+            correct++;
+        } else {
+            input.classList.remove('correct');
+            input.classList.add('incorrect');
+        }
+    }
+    document.getElementById('fill-score').textContent = correct + '/10 correctas';
+}
+
+// ==================== RELACIONAR ====================
+const matchData = [
+    {delito: 'Phishing', situacion: 'Recibes un correo falso del banco pidiendo tu clave'},
+    {delito: 'Ransomware', situacion: 'Tus archivos se cifran y te piden dinero para recuperarlos'},
+    {delito: 'Ciberacoso', situacion: 'Alguien te amenaza por redes sociales repetidamente'},
+    {delito: 'Robo de identidad', situacion: 'Alguien usa tu cedula para abrir cuentas a tu nombre'},
+    {delito: 'Daño informático', situacion: 'Borrar intencionalmente los archivos de la escuela'},
+    {delito: 'Suplantación web', situacion: 'Una pagina falsa imita la de tu banco para robar datos'},
+    {delito: 'Malware', situacion: 'Descargas un programa que roba la información de tu computador'},
+    {delito: 'Fraude financiero', situacion: 'Realizan transferencias bancarias sin tu autorización'}
+];
+let matchSelected = {left: null, right: null};
+let matchResults = {};
+let shuffledRight = [];
+
+function initMatch() {
+    const left = document.getElementById('match-left');
+    const right = document.getElementById('match-right');
+    shuffledRight = [...matchData].sort(() => Math.random() - 0.5);
+
+    left.innerHTML = matchData.map((m, i) =>
+        '<div class="match-item" id="ml-'+i+'" onclick="selectMatch(\'left\','+i+')">'+m.delito+'</div>'
+    ).join('');
+
+    right.innerHTML = shuffledRight.map((m, i) =>
+        '<div class="match-item" id="mr-'+i+'" onclick="selectMatch(\'right\','+i+')">'+m.situacion+'</div>'
+    ).join('');
+
+    matchResults = {};
+    matchSelected = {left: null, right: null};
+}
+
+function selectMatch(side, idx) {
+    if (side === 'left') {
+        document.querySelectorAll('#match-left .match-item').forEach(m => m.classList.remove('selected'));
+        document.getElementById('ml-'+idx).classList.add('selected');
+        matchSelected.left = idx;
+    } else {
+        document.querySelectorAll('#match-right .match-item').forEach(m => m.classList.remove('selected'));
+        document.getElementById('mr-'+idx).classList.add('selected');
+        matchSelected.right = idx;
+    }
+    if (matchSelected.left !== null && matchSelected.right !== null) {
+        matchResults[matchSelected.left] = matchSelected.right;
+        document.querySelectorAll('#match-left .match-item, #match-right .match-item').forEach(m => m.classList.remove('selected'));
+        matchSelected = {left: null, right: null};
+    }
+}
+
+function checkMatches() {
+    let correct = 0;
+    for (let i = 0; i < matchData.length; i++) {
+        if (matchResults[i] !== undefined) {
+            const leftEl = document.getElementById('ml-'+i);
+            const rightIdx = matchResults[i];
+            const rightEl = document.getElementById('mr-'+rightIdx);
+            if (shuffledRight[rightIdx].delito === matchData[i].delito) {
+                leftEl.classList.add('correct');
+                rightEl.classList.add('correct');
+                correct++;
+            } else {
+                leftEl.classList.add('incorrect');
+                rightEl.classList.add('incorrect');
+            }
+        }
+    }
+    document.getElementById('match-score').textContent = correct + '/8 relaciones correctas';
+}
+
+function resetMatches() {
+    document.querySelectorAll('.match-item').forEach(m => {
+        m.classList.remove('correct','incorrect','selected');
+    });
+    matchResults = {};
+    matchSelected = {left: null, right: null};
+    document.getElementById('match-score').textContent = '';
+}
+
+// ==================== EVALUACION ====================
+const quizQuestions = [
+    {q: '1. Que son los delitos informaticos?', o: ['Actos delictivos cometidos usando dispositivos electronicos','Delitos que solo ocurren en la calle','Errores de programacion en computadores','Accidentes de internet'], a: 0},
+    {q: '2. En que ano se aprobo la Ley que regula los delitos informaticos en Colombia?', o: ['2005','2009','2015','2020'], a: 1},
+    {q: '3. Que es el phishing?', o: ['Un tipo de virus','Una tecnica para obtener datos haciendose pasar por una entidad de confianza','Un programa de antivirus','Un tipo de contraseña'], a: 1},
+    {q: '4. Que hace el ransomware?', o: ['Borra todos los archivos permanentemente','Cifra los archivos y pide un rescate economico','Roba contrasenas del teclado','Envia correos automaticos'], a: 1},
+    {q: '5. Que es un troyano?', o: ['Un tipo de firewall','Un programa que se disfraza de legitimo para robar informacion','Un tipo de virus que borra archivos','Una red segura'], a: 1},
+    {q: '6. El acceso abusivo a un sistema informatico se refiere a:', o: ['Entrar sin autorizacion a una computadora o cuenta','Usar internet en un ciber cafe','Compartir archivos con amigos','Actualizar el sistema operativo'], a: 0},
+    {q: '7. Que es un ataque DDoS?', o: ['Un virus que se copia solo','Inundar un servicio online con trafico falso para hacerlo caer','Robar datos personales','Enviar spam por correo'], a: 1},
+    {q: '8. Interceptar conversaciones de WhatsApp sin permiso es:', o: ['Un delito informatico','Algo legal','Un juego','Una actualizacion de la app'], a: 0},
+    {q: '9. Que es la ingenieria social?', o: ['Un tipo de codigo','Manipular a personas para obtener informacion confidencial','Una carrera universitaria','Un tipo de computador'], a: 1},
+    {q: '10. Cual es la pena minima por delitos informaticos en Colombia?', o: ['1 ano','2 anos','4 anos','8 anos'], a: 2},
+    {q: '11. Que medida de seguridad recomiendan los expertos para las contrasenas?', o: ['Usar solo tu fecha de nacimiento','Usar la misma contrasena en todas las cuentas','Usar minimo 12 caracteres con mayusculas, numeros y simbolos','No usar contrasenas'], a: 2},
+    {q: '12. Que es la autenticacion de dos factores (2FA)?', o: ['Usar dos contrasenas diferentes','Un sistema que requiere dos formas de verificar tu identidad','Conectarte a dos redes a la vez','Usar dos computadores'], a: 1},
+    {q: '13. Que es el spyware?', o: ['Un antivirus','Software que espia tu actividad sin que lo sepas','Un tipo de firewall','Una red social'], a: 1},
+    {q: '14. Suplantar una pagina web para robar datos se llama:', o: ['Vishing','Pharming','Phishing o suplantacion web','Smishing'], a: 2},
+    {q: '15. Que entidad investiga los delitos informaticos en Colombia?', o: ['El Senado','El Centro Cibernetico Policial','La Superintendencia de Comercio','El Ministerio de Educacion'], a: 1},
+    {q: '16. Que es la Ley 1273 de 2009?', o: ['Una ley de educacion','Una ley que tipifica los delitos informaticos en Colombia','Una ley de salud','Una ley ambiental'], a: 1},
+    {q: '17. Que debes hacer si eres victima de un delito informatico?', o: ['Ignorar el problema','Conservar evidencia y denunciar en el CAI Virtual','Borrar todo y olvidar','No hacer nada'], a: 1},
+    {q: '18. El robo de identidad digital consiste en:', o: ['Tomar fotos a alguien','Suplantar la identidad de una persona para cometer fraudes','Crear un perfil falso en redes sociales','Cambiar tu nombre'], a: 1},
+    {q: '19. Que es el malware?', o: ['Un tipo de internet','Cualquier software disenado para danar sistemas','Un navegador web','Un tipo de contrasena'], a: 1},
+    {q: '20. Cual de estas es una medida de proteccion?', o: ['No actualizar el software','Hacer clic en cualquier enlace','Usar antivirus actualizado','Compartir tu contrasena'], a: 2},
+    {q: '21. Que es el hurto por medios informaticos?', o: ['Robar una computadora fisicamente','Apoderarse de bienes ajenos manipulando sistemas informaticos','Prestar dinero por internet','Vender computadores usados'], a: 1},
+    {q: '22. Que haces si recibes un correo sospechoso del banco?', o: ['Haces clic en el enlace inmediatamente','Lo reenvias a todos tus contactos','No haces clic y verificas con el banco directamente','Borras tu correo'], a: 2},
+    {q: '23. En Colombia, los delitos informaticos pueden tener penas de hasta:', o: ['2 anos','5 anos','8 anos','12 anos'], a: 3},
+    {q: '24. Que es un ataque de fuerza bruta?', o: ['Un golpe fisico a la computadora','Probar multiples contrasenas hasta encontrar la correcta','Un tipo de virus','Una actualizacion de windows'], a: 1},
+    {q: '25. Cual es el primer paso para protegerte en internet?', o: ['Tener muchas redes sociales','Usar contrasenas fuertes y unicas','Compartir tu ubicacion','Descargar todo lo que veas'], a: 1}
+];
+
+let currentAttempt = 0;
+let bestScore = 0;
+let quizAnswered = false;
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = quizQuestions.map((q, i) => {
+        return '<div class="question-card" id="qcard-'+i+'"><h4>'+q.q+'</h4><div class="options">'+
+            q.o.map((opt, j) => '<label id="ql-'+i+'-'+j+'" onclick="selectOption('+i+','+j+')"><input type="radio" name="q'+i+'" value="'+j+'">'+opt+'</label>').join('')+
+            '</div></div>';
+    }).join('');
+}
+
+function selectOption(qIdx, oIdx) {
+    if (quizAnswered) return;
+    quizQuestions[qIdx].o.forEach((_, j) => {
+        document.getElementById('ql-'+qIdx+'-'+j).classList.remove('selected');
+    });
+    document.getElementById('ql-'+qIdx+'-'+oIdx).classList.add('selected');
+}
+
+function submitQuiz() {
+    if (quizAnswered) return;
+    quizAnswered = true;
+    let correct = 0;
+    quizQuestions.forEach((q, i) => {
+        const selected = document.querySelector('input[name="q'+i+'"]:checked');
+        const userAnswer = selected ? parseInt(selected.value) : -1;
+        q.o.forEach((_, j) => {
+            const label = document.getElementById('ql-'+i+'-'+j);
+            if (j === q.a) label.classList.add('correct');
+            if (j === userAnswer && j !== q.a) label.classList.add('incorrect');
+        });
+    });
+
+    correct = quizQuestions.filter((q, i) => {
+        const selected = document.querySelector('input[name="q'+i+'"]:checked');
+        return selected && parseInt(selected.value) === q.a;
+    }).length;
+
+    const score = (correct / quizQuestions.length * 10).toFixed(1);
+    if (parseFloat(score) > bestScore) bestScore = parseFloat(score);
+    currentAttempt++;
+
+    document.getElementById('attempt-num').textContent = currentAttempt;
+    document.getElementById('best-score').textContent = bestScore;
+
+    const result = document.getElementById('quiz-result');
+    result.style.display = 'block';
+    result.innerHTML = '<div class="final-score"><h2>Tu calificacion: ' + score + ' / 10</h2><p>Respuestas correctas: ' + correct + ' de ' + quizQuestions.length + '</p>' +
+        (currentAttempt < 3 ? '<p style="margin-top:10px;">Puedes intentarlo ' + (3-currentAttempt) + ' vez(es) mas</p>' : '<p style="margin-top:10px;">Has agotado tus 3 intentos</p>') +
+        '</div>';
+
+    if (currentAttempt < 3) {
+        document.getElementById('retry-btn').style.display = 'inline-block';
+    }
+}
+
+function resetQuiz() {
+    quizAnswered = false;
+    quizQuestions.forEach((q, i) => {
+        q.o.forEach((_, j) => {
+            const label = document.getElementById('ql-'+i+'-'+j);
+            label.classList.remove('selected','correct','incorrect');
+            label.querySelector('input').checked = false;
+        });
+        document.getElementById('qcard-'+i).classList.remove('correct','incorrect');
+    });
+    document.getElementById('quiz-result').style.display = 'none';
+}
+
+// ==================== INICIALIZACION ====================
+window.onload = function() {
+    initWordSearch();
+    initMatch();
+    renderQuiz();
+};
+</script>
+
+</body>
+</html>
