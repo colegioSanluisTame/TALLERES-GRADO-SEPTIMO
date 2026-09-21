@@ -76,6 +76,11 @@
         .options label.correct { background: #c8e6c9; border-color: #4caf50; }
         .options label.incorrect { background: #ffcdd2; border-color: #f44336; }
 
+        .case-option:hover { background: #e8eaf6; }
+        .case-option.selected { background: #c5cae9; border-color: #1a237e; }
+        .case-option.correct { background: #c8e6c9; border-color: #4caf50; }
+        .case-option.incorrect { background: #ffcdd2; border-color: #f44336; }
+
         .attempt-info { text-align: center; padding: 10px; background: #fff3e0; border-radius: 8px; margin-bottom: 15px; font-weight: 600; }
 
         .final-score { text-align: center; padding: 30px; background: linear-gradient(135deg, #1a237e, #283593); color: white; border-radius: 15px; margin: 20px 0; }
@@ -335,6 +340,20 @@
         </div>
     </div>
 
+    <!-- ESTUDIO DE CASOS -->
+    <div class="card">
+        <h2>Actividad 4: Estudio de Casos - Identifica el Delito</h2>
+        <p>Lee cada caso atentamente y selecciona el delito informatico que se esta cometiendo. Haz clic en la respuesta que consideres correcta.</p>
+
+        <div id="cases-container"></div>
+
+        <div style="text-align:center; margin-top:20px;">
+            <button class="btn btn-success" onclick="checkCases()">Verificar Respuestas</button>
+            <button class="btn btn-warning" onclick="resetCases()">Reiniciar</button>
+            <p id="cases-score" style="margin-top:10px; font-weight:bold;"></p>
+        </div>
+    </div>
+
 </div>
 
 <!-- ==================== PESTANA 3: EVALUACION ==================== -->
@@ -557,6 +576,168 @@ function resetMatches() {
     document.getElementById('match-score').textContent = '';
 }
 
+// ==================== ESTUDIO DE CASOS ====================
+const casesData = [
+    {
+        titulo: 'Caso 1: El correo del banco',
+        relato: 'Santiago, de 13 anos, recibio un correo que decia: "Banco Agrario: Se ha detectado un movimiento sospechoso en tu cuenta. Haz clic aqui para bloquearla inmediatamente". El correo tenia el logo del banco y parecia muy profesional. Santiago hizo clic y le pidio su numero de cedula, clave y numero de tarjeta.',
+        opciones: ['Phishing (Suplantacion de sitio web)','Ransomware','Daño informático','Ciberacoso'],
+        correcta: 0,
+        explicacion: 'Es phishing porque usaron un correo falso que imitaba al banco para robar datos personales y financieros.'
+    },
+    {
+        titulo: 'Caso 2: El juego gratis',
+        relato: 'Valentina, de 12 anos, descargo un juego "Minecraft Gratis" de una pagina no oficial. A los dos dias, su computador empezo a ir muy lento, aparecian ventanas emergentes con publicidad y su camara se encendia sola sin que ella lo activara.',
+        opciones: ['Phishing','Spyware','Suplantación web','Extorsión informática'],
+        correcta: 1,
+        explicacion: 'El spyware es software que espia la actividad del usuario sin su conocimiento, incluyendo activar la camara y capturar datos.'
+    },
+    {
+        titulo: 'Caso 3: Las notas cambiadas',
+        relato: 'Un grupo de estudiantes de octavo grado descubrio la clave del sistema academico del colegio. Durante una semana, ingresaron al sistema y cambiaron las notas de varios companeros, subiendo calificaciones que no les correspondian.',
+        opciones: ['Violación de datos personales','Interceptación de datos','Acceso abusivo a sistema informático','Uso de software malicioso'],
+        correcta: 2,
+        explicacion: 'Acceso abusivo porque entraron al sistema sin autorizacion y modificaron informacion que no les pertenecia.'
+    },
+    {
+        titulo: 'Caso 4: La tienda fantasma',
+        relato: 'Camila, de 14 anos, encontro en Instagram una pagina que vendia zapatillas deportivas a mitad de precio. Hizo un pedido y pago $150.000 por Nequi. Nunca recibio los zapatos y la pagina desaparecio al dia siguiente.',
+        opciones: ['Suplantación de sitios web para capturar datos y dinero','Ransomware','Robo de identidad digital','Malware'],
+        correcta: 0,
+        explicacion: 'Es suplantacion de sitios web porque crearon una pagina falsa que imitaba una tienda real para estafar a los compradores.'
+    },
+    {
+        titulo: 'Caso 5: Las fotos sin permiso',
+        relato: 'Lucia, de 13 anos, tuvo una discusion con su exnovio. Al dia siguiente, descubrio que el habia publicado fotos personales y conversaciones privadas de WhatsApp en redes sociales para humillarla ante toda la escuela.',
+        opciones: ['Phishing','Ciberacoso y violación de datos personales','Daño informático','Suplantación web'],
+        correcta: 1,
+        explicacion: 'Se configuran dos delitos: ciberacoso (acosar e intimidar por medios digitales) y violacion de datos personales (divulgar informacion sin consentimiento).'
+    },
+    {
+        titulo: 'Caso 6: El rescate digital',
+        relato: 'El director del colegio recibio un correo con un archivo adjunto. Al abrirlo, todos los archivos del computador se cifraron y aparecio un mensaje: "Sus archivos estan bloqueados. Pague 500 dolares en Bitcoin en 48 horas o los archivos seran eliminados permanentemente".',
+        opciones: ['Phishing','Spyware','Ransomware','Keylogger'],
+        correcta: 2,
+        explicacion: 'El ransomware cifra los archivos de la victima y exige un rescate economico para liberarlos.'
+    },
+    {
+        titulo: 'Caso 7: La llamada sospechosa',
+        relato: 'Andrea, de 14 anos, recibio una llamada de alguien que se identifico como tecnico de Claro. Le dijo que su linea tenia un problema y que necesitaba su clave de internet y los datos de su tarjeta de credito para "resolverlo". Andrea desconfio y colgo.',
+        opciones: ['Vishing (Phishing telefónico)','Ransomware','Suplantación web','Malware'],
+        correcta: 0,
+        explicacion: 'Es vishing, una tecnica de phishing que usa llamadas telefonicas para enganar a las victimas y obtener datos confidenciales.'
+    },
+    {
+        titulo: 'Caso 8: La red de zombies',
+        relato: 'Un grupo de hackers creo una red de mas de 10.000 computadoras infectadas en todo el mundo. Utilizaron esta red para atacar el servidor del Banco de Colombia durante las horas pico, impidiendo que miles de clientes realizaran transacciones por 6 horas.',
+        opciones: ['Phishing','Ransomware','Ataque DDoS con Botnet','Ciberespionaje'],
+        correcta: 2,
+        explicacion: 'Es un ataque DDoS (denegacion de servicio) usando una Botnet, que es una red de dispositivos "zombies" controlados remotamente.'
+    },
+    {
+        titulo: 'Caso 9: El teclado espia',
+        relato: 'En una empresa de Bogota, el departamento de TI descubrio que alguien habia instalado un programa invisible en todos los computadores de contabilidad. Este programa grababa cada tecla que presionaban, capturando contrasenas bancarias y datos de clientes.',
+        opciones: ['Ransomware','Adware','Keylogger (tipo spyware)','Virus'],
+        correcta: 2,
+        explicacion: 'Un keylogger es un tipo de spyware que registra todo lo que se escribe en el teclado, capturando contrasenas y datos confidenciales.'
+    },
+    {
+        titulo: 'Caso 10: La identidad robada',
+        relato: 'La mama de Sebastian recibio una carta del banco informandole que le habian aprobado una tarjeta de credito por $5.000.000. Ella nunca la habia solicitado. Al investigar, descubrieron que alguien habia usado sus datos personales (cedula, direccion y datos laborales) para solicitar el credito.',
+        opciones: ['Phishing','Robo de identidad digital','Daño informático','Ciberacoso'],
+        correcta: 1,
+        explicacion: 'Es robo de identidad digital porque usurparon la identidad de una persona para obtener beneficios economicos ilegitimos.'
+    },
+    {
+        titulo: 'Caso 11: El ex empleado',
+        relato: 'Pedro fue despedido de una empresa de software. Antes de irse, uso sus credenciales para entrar al servidor y borro todos los proyectos en los que habia trabajado, causando perdidas economicas millonarias a la empresa.',
+        opciones: ['Acceso abusivo','Daño informático','Hurto informático','Suplantación web'],
+        correcta: 1,
+        explicacion: 'Es dano informatico porque destruyo y borro datos informaticos de forma intencionada, causando perjuicio a la empresa.'
+    },
+    {
+        titulo: 'Caso 12: El perfil falso',
+        relato: 'Daniel, de 12 anos, creo un perfil falso de Instagram haciendose pasar por una companera de clase. Publico fotos suyas con comentarios ofensivos y humillantes. La companera se entero cuando sus amigos le mandaron capturas de pantalla.',
+        opciones: ['Suplantación de identidad digital','Ciberacoso y violación de datos personales','Phishing','Daño informático'],
+        correcta: 1,
+        explicacion: 'Se configuran ciberacoso (intimidar y humillar por medios digitales) y violacion de datos personales (usar fotos sin consentimiento).'
+    }
+];
+
+let casesAnswered = false;
+
+function renderCases() {
+    const container = document.getElementById('cases-container');
+    container.innerHTML = casesData.map((c, i) => {
+        return '<div class="case-card" id="case-'+i+'" style="background:#f5f7fa; border-radius:10px; padding:18px; margin:15px 0; border-left:4px solid #1a237e;">'+
+            '<h4 style="color:#1a237e; margin-bottom:8px;">'+c.titulo+'</h4>'+
+            '<p style="line-height:1.7; margin-bottom:12px;">'+c.relato+'</p>'+
+            '<div class="case-options" id="case-opts-'+i+'">'+
+                c.opciones.map((opt, j) =>
+                    '<label class="case-option" id="co-'+i+'-'+j+'" onclick="selectCaseOption('+i+','+j+')" style="display:block; padding:8px 12px; margin:4px 0; border-radius:6px; cursor:pointer; border:1px solid #e0e0e0; transition:0.2s;">'+
+                    '<input type="radio" name="case'+i+'" value="'+j+'" style="margin-right:10px;">'+opt+'</label>'
+                ).join('')+
+            '</div>'+
+            '<div class="case-feedback" id="case-fb-'+i+'" style="display:none; margin-top:10px; padding:10px; border-radius:6px;"></div>'+
+        '</div>';
+    }).join('');
+}
+
+function selectCaseOption(caseIdx, optIdx) {
+    if (casesAnswered) return;
+    const numOpts = casesData[caseIdx].opciones.length;
+    for (let j = 0; j < numOpts; j++) {
+        document.getElementById('co-'+caseIdx+'-'+j).classList.remove('selected');
+    }
+    document.getElementById('co-'+caseIdx+'-'+optIdx).classList.add('selected');
+}
+
+function checkCases() {
+    if (casesAnswered) return;
+    casesAnswered = true;
+    let correct = 0;
+
+    casesData.forEach((c, i) => {
+        const selected = document.querySelector('input[name="case'+i+'"]:checked');
+        const userAnswer = selected ? parseInt(selected.value) : -1;
+
+        for (let j = 0; j < c.opciones.length; j++) {
+            const label = document.getElementById('co-'+i+'-'+j);
+            label.classList.remove('selected');
+            if (j === c.correcta) label.classList.add('correct');
+            if (j === userAnswer && j !== c.correcta) label.classList.add('incorrect');
+        }
+
+        const fb = document.getElementById('case-fb-'+i);
+        fb.style.display = 'block';
+        if (userAnswer === c.correcta) {
+            correct++;
+            fb.style.background = '#e8f5e9';
+            fb.style.borderLeft = '4px solid #4caf50';
+            fb.innerHTML = '<strong style="color:#2e7d32;">Correcto!</strong> ' + c.explicacion;
+        } else {
+            fb.style.background = '#ffebee';
+            fb.style.borderLeft = '4px solid #f44336';
+            fb.innerHTML = '<strong style="color:#c62828;">Incorrecto.</strong> ' + c.explicacion;
+        }
+    });
+
+    document.getElementById('cases-score').textContent = correct + '/' + casesData.length + ' casos correctos (' + (correct/casesData.length*10).toFixed(1) + '/10)';
+}
+
+function resetCases() {
+    casesAnswered = false;
+    casesData.forEach((c, i) => {
+        for (let j = 0; j < c.opciones.length; j++) {
+            const label = document.getElementById('co-'+i+'-'+j);
+            label.classList.remove('selected','correct','incorrect');
+            label.querySelector('input').checked = false;
+        }
+        document.getElementById('case-fb-'+i).style.display = 'none';
+    });
+    document.getElementById('cases-score').textContent = '';
+}
+
 // ==================== EVALUACION ====================
 const allQuestions = [
     {q: 'Maria recibe un mensaje de texto: "Banco Popular: Tu cuenta ha sido bloqueada. Ingresa a este enlace para activarla: www.banco-popular-servicios.com". Al hacer clic, le piden numero de cedula y clave. ¿Qué delito informático se está cometiendo?', o: ['Ransomware','Suplantación de sitio web (Phishing)','Daño informático','Interceptación de datos'], a: 1},
@@ -708,6 +889,7 @@ function resetQuiz() {
 window.onload = function() {
     initWordSearch();
     initMatch();
+    renderCases();
     renderQuiz();
 };
 </script>
