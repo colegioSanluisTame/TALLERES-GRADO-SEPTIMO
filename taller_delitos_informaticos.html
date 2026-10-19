@@ -263,12 +263,13 @@
     <!-- SOPA DE LETRAS -->
     <div class="card">
         <h2>Actividad 1: Sopa de Letras</h2>
-        <p>Encuentra las palabras ocultas en la sopa de letras. Haz clic en la primera letra y luego en la ultima letra de cada palabra.</p>
-        <p><em>Pista: Las palabras estan en horizontal (izquierda a derecha) o vertical (arriba a abajo).</em></p>
+        <p>Encuentra las 12 palabras relacionadas con delitos informáticos ocultas en la sopa. <em>Haz clic en la primera letra y luego en la última letra de cada palabra.</em></p>
+        <p style="color:#666; font-size:0.9em;">Las palabras pueden estar distribuidas: <strong>horizontal</strong> (izquierda-derecha), <strong>vertical</strong> (arriba-abajo) o <strong>diagonal</strong> en cualquiera de las 4 direcciones. Tienes <strong>3 oportunidades</strong> para encontrar todas.</p>
 
         <div id="word-search-area"></div>
         <div class="words-list" id="words-list"></div>
-        <p id="ws-score" style="text-align:center; font-weight:bold; margin-top:10px;"></p>
+        <div id="ws-info" style="margin-top:10px; font-weight:bold; color:#1a237e;"></div>
+        <p id="ws-score" style="margin-top:10px; text-align:center; font-weight:bold;"></p>
     </div>
 
     <!-- COMPLETAR -->
@@ -388,107 +389,183 @@ function openTab(tabId) {
     document.getElementById(tabId).classList.add('active');
     event.target.classList.add('active');
 }
-
 // ==================== SOPA DE LETRAS ====================
 const wsWords = ['PHISHING','MALWARE','VIRUS','FRAUDE','HACKER','DATOS','CORREO','CLAVE','RED','LEY','RANSOMWARE','CIBERACOSO'];
 const wsSize = 12;
 let wsGrid = [];
-let wsSelected = [];
-let wsFound = [];
-let wsStartCell = null;
-let wsAttempts = 0;
-const wsMaxAttempts = 3;
+let wsFound = []; // Array de palabras encontradas (en minúsculas)
+let wsMaxAttempts = 3;
+let wsCurrentAttempt = 0;
+let wsWordsFound = 0;
 
+// Inicializar la sopa de letras
 function initWordSearch() {
     wsGrid = Array.from({length: wsSize}, () => Array(wsSize).fill(''));
     wsFound = [];
-    wsSelected = [];
-    wsAttempts = 0;
-
-    const directions = [[0,1],[1,0],[1,1]];
-    wsWords.forEach(word => {
+    wsWordsFound = 0;
+    wsCurrentAttempt = 0;
+    
+    const palabrasTaller = [
+        'PHISHING', 'MALWARE', 'VIRUS', 'FRAUDE', 'HACKER',
+        'DATOS', 'CORREO', 'CLAVE', 'RED', 'LEY', 'RANSOMWARE', 'CIBERACOSO'
+    ];
+    
+    const directions = [[0,1], [1,0], [1,1], [1,-1]];
+    
+    palabrasTaller.forEach(word => {
         let placed = false;
-        let attempts = 0;
-        while (!placed && attempts < 100) {
+        let tries = 0;
+        while (!placed && tries < 200) {
             const dir = directions[Math.floor(Math.random() * directions.length)];
             const r = Math.floor(Math.random() * wsSize);
             const c = Math.floor(Math.random() * wsSize);
+            
             let fits = true;
             for (let i = 0; i < word.length; i++) {
                 const nr = r + dir[0]*i;
                 const nc = c + dir[1]*i;
-                if (nr >= wsSize || nc >= wsSize || (wsGrid[nr][nc] !== '' && wsGrid[nr][nc] !== word[i])) {
+                if (nr < 0 || nr >= wsSize || nc < 0 || nc >= wsSize) {
+                    fits = false;
+                    break;
+                }
+                if (wsGrid[nr][nc] !== '' && wsGrid[nr][nc] !== word[i]) {
                     fits = false;
                     break;
                 }
             }
+            
             if (fits) {
                 for (let i = 0; i < word.length; i++) {
                     wsGrid[r + dir[0]*i][c + dir[1]*i] = word[i];
                 }
                 placed = true;
             }
-            attempts++;
+            tries++;
         }
     });
-
-    for (let r = 0; r < wsSize; r++)
-        for (let c = 0; c < wsSize; c++)
-            if (wsGrid[r][c] === '') wsGrid[r][c] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[Math.floor(Math.random()*26)];
-
+    
+    for (let r = 0; r < wsSize; r++) {
+        for (let c = 0; c < wsSize; c++) {
+            if (wsGrid[r][c] === '') {
+                wsGrid[r][c] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[Math.floor(Math.random()*26)];
+            }
+        }
+    }
+    
+    wsWordsFound = 0;
+    wsCurrentAttempt = 0;
     renderWordSearch();
 }
 
+// Renderizar la sopa de letras
 function renderWordSearch() {
     const area = document.getElementById('word-search-area');
     const list = document.getElementById('words-list');
-    let html = '<div class="word-search-grid" style="grid-template-columns: repeat('+wsSize+', 32px);">';
-    for (let r = 0; r < wsSize; r++)
-        for (let c = 0; c < wsSize; c++)
-            html += '<span id="ws-'+r+'-'+c+'" onclick="selectWSCell('+r+','+c+')">'+wsGrid[r][c]+'</span>';
-    html += '</div>';
-    area.innerHTML = html + '<div id="ws-info"></div>';
-
-    const attemptsHtml = wsAttempts >= wsMaxAttempts 
-        ? '<p style="color:#f44336; font-weight:bold;">Has agotado tus ' + wsMaxAttempts + ' oportunidades.</p>' 
-        : '<p style="color:#1a237e; font-weight:bold;">Intento ' + wsAttempts + ' de ' + wsMaxAttempts + '</p>';
     
-    list.innerHTML = wsWords.map(w => '<span id="wl-'+w+'">'+w+'</span>').join('');
-    document.getElementById('ws-info').innerHTML = attemptsHtml;
+    let html = '<div class="word-search-grid" style="grid-template-columns: repeat('+wsSize+', 32px);">';
+    for (let r = 0; r < wsSize; r++) {
+        for (let c = 0; c < wsSize; c++) {
+            html += '<span class="ws-cell" id="ws-'+r+'-'+c+'" onclick="selectCell('+r+','+c+')">'+wsGrid[r][c]+'</span>';
+        }
+    }
+    html += '</div>';
+    
+    area.innerHTML = html;
+    
+    let wordsHtml = '';
+    wsWords.forEach((word, idx) => {
+        const found = wsFound.includes(word.toLowerCase());
+        wordsHtml += '<span class="ws-word '+ (found ? 'found' : '') +'" id="wl-'+word+'">'+word+'</span>';
+    });
+    list.innerHTML = wordsHtml;
+    
+    document.getElementById('ws-info').innerHTML = 
+        '<p style="color:#1a237e; font-weight:bold; margin-bottom:10px;">Palabras encontradas: ' + wsWordsFound + '/' + wsWords.length + '</p>' +
+        '<p style="color:#1a237e;">Tiene ' + wsCurrentAttempt + ' de ' + wsMaxAttempts + ' intentos</p>';
 }
 
-function selectWSCell(r, c) {
+// Manejar el clic en una celda
+function selectCell(r, c) {
+    if (wsWordsFound >= wsWords.length) return;
+    
     const cell = document.getElementById('ws-'+r+'-'+c);
-    if (!wsStartCell && wsAttempts < wsMaxAttempts) {
-        wsStartCell = {r, c};
-        cell.classList.add('selected');
-    } else if (wsStartCell) {
-        const dr = r - wsStartCell.r;
-        const dc = c - wsStartCell.c;
-        if ((dr === 0 || dc === 0 || Math.abs(dr) === Math.abs(dc)) &&
-            (Math.abs(dr) === wsGrid.length || Math.abs(dc) === wsGrid.length || Math.abs(dr) === Math.abs(dc))) {
-            const stepR = dr === 0 ? 0 : dr / Math.abs(dr);
-            const stepC = dc === 0 ? 0 : dc / Math.abs(dc);
-            const len = Math.max(Math.abs(dr), Math.abs(dc)) + 1;
-            let word = '';
-            for (let i = 0; i < len; i++) word += wsGrid[wsStartCell.r + stepR*i][wsStartCell.c + stepC*i];
-
-            if (wsWords.includes(word) && !wsFound.includes(word)) {
-                wsFound.push(word);
-                for (let i = 0; i < len; i++) {
-                    document.getElementById('ws-'+(wsStartCell.r+stepR*i)+'-'+(wsStartCell.c+stepC*i)).classList.add('found');
-                }
-                document.getElementById('wl-'+word).classList.add('found');
-                wsAttempts++;
-                document.getElementById('ws-info').innerHTML = wsAttempts >= wsMaxAttempts 
-                    ? '<p style="color:#f44336; font-weight:bold;">Has agotado tus ' + wsMaxAttempts + ' oportunidades.</p>' 
-                    : '<p style="color:#1a237e; font-weight:bold;">Intento ' + wsAttempts + ' de ' + wsMaxAttempts + '</p>';
-            }
-        }
-        document.querySelectorAll('.word-search-grid span.selected').forEach(s => s.classList.remove('selected'));
-        wsStartCell = null;
+    if (!cell) return;
+    
+    document.querySelectorAll('.ws-cell.selected').forEach(el => el.classList.remove('selected'));
+    cell.classList.add('selected');
+    
+    const selectedCount = document.querySelectorAll('.ws-cell.selected').length;
+    
+    if (selectedCount === 2) {
+        checkWord();
     }
-    document.getElementById('ws-score').textContent = 'Encontradas: ' + wsFound.length + '/' + wsWords.length;
+}
+
+// Verificar si la palabra seleccionada es correcta
+function checkWord() {
+    const selectedCells = document.querySelectorAll('.ws-cell.selected');
+    if (selectedCells.length !== 2) return;
+    
+    const coords = [];
+    selectedCells.forEach(el => {
+        const id = el.id;
+        const parts = id.split('-');
+        coords.push({r: parseInt(parts[1]), c: parseInt(parts[2])});
+    });
+    
+    coords.sort((a, b) => a.r - b.r || a.c - b.c);
+    
+    const r1 = coords[0].r, c1 = coords[0].c;
+    const r2 = coords[1].r, c2 = coords[1].c;
+    
+    let word = '';
+    let isValid = false;
+    
+    if (r1 === r2 && c2 > c1) {
+        for (let c = c1; c <= c2; c++) word += wsGrid[r1][c];
+        isValid = wsWords.includes(word);
+    }
+    else if (c1 === c2 && r2 > r1) {
+        for (let r = r1; r <= r2; r++) word += wsGrid[r][c1];
+        isValid = wsWords.includes(word);
+    }
+    else if (r2 > r1 && c2 > c1) {
+        for (let i = 0; i <= r2-r1; i++) word += wsGrid[r1+i][c1+i];
+        isValid = wsWords.includes(word);
+    }
+    else if (r2 > r1 && c2 < c1) {
+        for (let i = 0; i <= r2-r1; i++) word += wsGrid[r1+i][c1-i];
+        isValid = wsWords.includes(word);
+    }
+    
+    if (isValid && !wsFound.includes(word.toLowerCase())) {
+        wsFound.push(word.toLowerCase());
+        wsWordsFound++;
+        selectedCells.forEach(el => el.classList.add('found'));
+        document.getElementById('wl-'+word).classList.add('found');
+        document.querySelectorAll('.ws-cell.selected').forEach(el => el.classList.remove('selected'));
+        
+        if (wsWordsFound >= wsWords.length) {
+            setTimeout(() => {
+                alert('¡Felicidades! Encontraste todas las palabras del taller.');
+            }, 500);
+        }
+    }
+    else if (!wsFound.includes(word.toLowerCase())) {
+        wsCurrentAttempt++;
+        if (wsCurrentAttempt >= wsMaxAttempts) {
+            alert('Has agotado tus ' + wsMaxAttempts + ' oportunidades. Las palabras estaban distribuidas en horizontal, vertical y diagonal.');
+        }
+        else {
+            alert('Palabra no encontrada. Te quedan ' + (wsMaxAttempts - wsCurrentAttempt) + ' intentos.');
+        }
+    }
+    
+    document.querySelectorAll('.ws-cell.selected').forEach(el => el.classList.remove('selected'));
+    wsCurrentAttempt++;
+    document.getElementById('ws-info').innerHTML = 
+        '<p style="color:#1a237e; font-weight:bold; margin-bottom:10px;">Palabras encontradas: ' + wsWordsFound + '/' + wsWords.length + '</p>' +
+        '<p style="color:#1a237e;">Intento ' + (wsCurrentAttempt + 1) + ' de ' + wsMaxAttempts + '</p>';
 }
 
 // ==================== COMPLETAR ====================
