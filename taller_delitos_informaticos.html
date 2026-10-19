@@ -390,17 +390,20 @@ function openTab(tabId) {
 }
 
 // ==================== SOPA DE LETRAS ====================
-const wsWords = ['PHISHING','MALWARE','VIRUS','FRAUDE','HACKER','DATOS','CORREO','CLAVE','RED','LEY'];
+const wsWords = ['PHISHING','MALWARE','VIRUS','FRAUDE','HACKER','DATOS','CORREO','CLAVE','RED','LEY','RANSOMWARE','CIBERACOSO'];
 const wsSize = 12;
 let wsGrid = [];
 let wsSelected = [];
 let wsFound = [];
 let wsStartCell = null;
+let wsAttempts = 0;
+const wsMaxAttempts = 3;
 
 function initWordSearch() {
     wsGrid = Array.from({length: wsSize}, () => Array(wsSize).fill(''));
     wsFound = [];
     wsSelected = [];
+    wsAttempts = 0;
 
     const directions = [[0,1],[1,0],[1,1]];
     wsWords.forEach(word => {
@@ -444,17 +447,22 @@ function renderWordSearch() {
         for (let c = 0; c < wsSize; c++)
             html += '<span id="ws-'+r+'-'+c+'" onclick="selectWSCell('+r+','+c+')">'+wsGrid[r][c]+'</span>';
     html += '</div>';
-    area.innerHTML = html;
+    area.innerHTML = html + '<div id="ws-info"></div>';
 
+    const attemptsHtml = wsAttempts >= wsMaxAttempts 
+        ? '<p style="color:#f44336; font-weight:bold;">Has agotado tus ' + wsMaxAttempts + ' oportunidades.</p>' 
+        : '<p style="color:#1a237e; font-weight:bold;">Intento ' + wsAttempts + ' de ' + wsMaxAttempts + '</p>';
+    
     list.innerHTML = wsWords.map(w => '<span id="wl-'+w+'">'+w+'</span>').join('');
+    document.getElementById('ws-info').innerHTML = attemptsHtml;
 }
 
 function selectWSCell(r, c) {
     const cell = document.getElementById('ws-'+r+'-'+c);
-    if (!wsStartCell) {
+    if (!wsStartCell && wsAttempts < wsMaxAttempts) {
         wsStartCell = {r, c};
         cell.classList.add('selected');
-    } else {
+    } else if (wsStartCell) {
         const dr = r - wsStartCell.r;
         const dc = c - wsStartCell.c;
         if ((dr === 0 || dc === 0 || Math.abs(dr) === Math.abs(dc)) &&
@@ -471,6 +479,10 @@ function selectWSCell(r, c) {
                     document.getElementById('ws-'+(wsStartCell.r+stepR*i)+'-'+(wsStartCell.c+stepC*i)).classList.add('found');
                 }
                 document.getElementById('wl-'+word).classList.add('found');
+                wsAttempts++;
+                document.getElementById('ws-info').innerHTML = wsAttempts >= wsMaxAttempts 
+                    ? '<p style="color:#f44336; font-weight:bold;">Has agotado tus ' + wsMaxAttempts + ' oportunidades.</p>' 
+                    : '<p style="color:#1a237e; font-weight:bold;">Intento ' + wsAttempts + ' de ' + wsMaxAttempts + '</p>';
             }
         }
         document.querySelectorAll('.word-search-grid span.selected').forEach(s => s.classList.remove('selected'));
